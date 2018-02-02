@@ -1,6 +1,7 @@
 package database.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
 
 @Entity
 @Table(name = "trade")
@@ -10,6 +11,7 @@ public class Trade {
     @Column(name = "id")
     private int id;
 
+    @Max(10)
     @Column(name = "trade")
     private String trade;
 

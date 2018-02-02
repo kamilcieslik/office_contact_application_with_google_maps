@@ -2,11 +2,16 @@ import database.entity.Address;
 import database.entity.Contact;
 import database.entity.Province;
 import database.entity.Trade;
+import database.service.OfficeService;
+import exception.DataTooLongViolationException;
+import exception.NameUniqueViolationException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 
+import javax.validation.Validation;
+import javax.validation.ValidatorFactory;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.util.List;
@@ -19,9 +24,9 @@ public class Main {
 
     public static void main(String[] args) {
         setupLog4J();
-        SessionFactory factory;
+        SessionFactory sessionFactory;
 
-        factory = new Configuration()
+        sessionFactory = new Configuration()
                 .configure()
                 .addAnnotatedClass(Address.class)
                 .addAnnotatedClass(Contact.class)
@@ -30,18 +35,14 @@ public class Main {
                 .buildSessionFactory();
         System.out.println("Utworzono SessionFactory.");
 
-        List<Contact> contacts = null;
-        try (Session currentSession = factory.getCurrentSession()) {
-            currentSession.beginTransaction();
-            Query<Contact> theQuery = currentSession.createQuery("from Contact", Contact.class);
-            contacts = theQuery.getResultList();
-            currentSession.getTransaction().commit();
-        } catch (Exception exc) {
-            exc.printStackTrace();
+        OfficeService officeService = new OfficeService(sessionFactory);
+        try {
+            officeService.saveTrade(new Trade("aaaaaaaaaab123"));
+        } catch (NameUniqueViolationException | DataTooLongViolationException e) {
+            System.out.println(e.getMessage() + ", powód: " + e.getCause().getMessage());
         }
-        System.out.println(contacts);
 
         System.out.println("Zamknięcie SessionFactory.");
-        factory.close();
+        sessionFactory.close();
     }
 }
