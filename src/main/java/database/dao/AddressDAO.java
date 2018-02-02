@@ -1,14 +1,15 @@
 package database.dao;
 
 import database.EntityCRUD;
+import database.entity.Address;
 import org.hibernate.SessionFactory;
 
 import java.util.List;
 
-public class Address implements EntityCRUD<Address> {
+public class AddressDAO implements EntityCRUD<Address> {
     private final SessionFactory sessionFactory;
 
-    public Address(SessionFactory sessionFactory) {
+    public AddressDAO(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
