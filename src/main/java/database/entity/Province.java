@@ -2,6 +2,7 @@ package database.entity;
 
 import javax.persistence.*;
 
+@Entity
 @Table(name = "province")
 public class Province {
     @Id
@@ -18,6 +19,9 @@ public class Province {
             CascadeType.PERSIST,
             CascadeType.REFRESH})
     private Address address;
+
+    public Province() {
+    }
 
     public Province(String province) {
         this.province = province;

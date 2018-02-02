@@ -2,6 +2,7 @@ package database.entity;
 
 import javax.persistence.*;
 
+@Entity
 @Table(name = "address")
 public class Address {
     @Id
@@ -28,6 +29,9 @@ public class Address {
             CascadeType.PERSIST,
             CascadeType.REFRESH})
     private Contact contact;
+
+    public Address() {
+    }
 
     public Address(String street, String city, String postalCode, Province province) {
         this.street = street;

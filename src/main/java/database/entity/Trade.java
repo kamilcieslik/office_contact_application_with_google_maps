@@ -20,6 +20,9 @@ public class Trade {
             CascadeType.REFRESH})
     private Contact contact;
 
+    public Trade() {
+    }
+
     public Trade(String trade) {
         this.trade = trade;
     }

@@ -1,26 +1,27 @@
 package database.dao;
 
 import database.EntityCRUD;
+import database.entity.Trade;
 import org.hibernate.SessionFactory;
 
 import java.util.List;
 
-public class Province implements EntityCRUD<Province> {
+public class TradeDAO implements EntityCRUD<Trade> {
     private final SessionFactory sessionFactory;
 
-    public Province(SessionFactory sessionFactory) {
+    public TradeDAO(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
-    public List<Province> getEntities() {
+    public List<Trade> getEntities() {
         return null;
     }
 
-    public void saveEntity(Province entity) {
+    public void saveEntity(Trade entity) {
 
     }
 
-    public Province getEntity(int id) {
+    public Trade getEntity(int id) {
         return null;
     }
 

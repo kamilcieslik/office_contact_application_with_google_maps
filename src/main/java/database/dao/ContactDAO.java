@@ -1,26 +1,27 @@
 package database.dao;
 
 import database.EntityCRUD;
+import database.entity.Contact;
 import org.hibernate.SessionFactory;
 
 import java.util.List;
 
-public class Trade implements EntityCRUD<Trade> {
+public class ContactDAO implements EntityCRUD<Contact> {
     private final SessionFactory sessionFactory;
 
-    public Trade(SessionFactory sessionFactory) {
+    public ContactDAO(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
-    public List<Trade> getEntities() {
+    public List<Contact> getEntities() {
         return null;
     }
 
-    public void saveEntity(Trade entity) {
+    public void saveEntity(Contact entity) {
 
     }
 
-    public Trade getEntity(int id) {
+    public Contact getEntity(int id) {
         return null;
     }
 

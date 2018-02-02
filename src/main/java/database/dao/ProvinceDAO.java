@@ -1,26 +1,27 @@
 package database.dao;
 
 import database.EntityCRUD;
+import database.entity.Province;
 import org.hibernate.SessionFactory;
 
 import java.util.List;
 
-public class Contact implements EntityCRUD<Contact> {
+public class ProvinceDAO implements EntityCRUD<Province> {
     private final SessionFactory sessionFactory;
 
-    public Contact(SessionFactory sessionFactory) {
+    public ProvinceDAO(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
-    public List<Contact> getEntities() {
+    public List<Province> getEntities() {
         return null;
     }
 
-    public void saveEntity(Contact entity) {
+    public void saveEntity(Province entity) {
 
     }
 
-    public Contact getEntity(int id) {
+    public Province getEntity(int id) {
         return null;
     }
 

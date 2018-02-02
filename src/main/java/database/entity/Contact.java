@@ -2,6 +2,7 @@ package database.entity;
 
 import javax.persistence.*;
 
+@Entity
 @Table(name = "contact")
 public class Contact {
     @Id
@@ -28,6 +29,9 @@ public class Contact {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")
     private Address address;
+
+    public Contact() {
+    }
 
     public Contact(String phone, String email, String description, String comments, Trade trade, Address address) {
         this.phone = phone;
