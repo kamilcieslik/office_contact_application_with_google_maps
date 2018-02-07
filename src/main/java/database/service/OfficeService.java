@@ -2,7 +2,6 @@ package database.service;
 
 import database.dao.*;
 import database.entity.Address;
-import database.view.ViewContact;
 import database.entity.Contact;
 import database.entity.Province;
 import database.entity.Trade;
@@ -18,7 +17,6 @@ public class OfficeService {
     private ContactDAO contactDAO;
     private ProvinceDAO provinceDAO;
     private TradeDAO tradeDAO;
-    private ViewContactDAO contactViewDAO;
     private ViewExtendedContactDAO extendedContactViewDAO;
 
     public OfficeService(SessionFactory sessionFactory) {
@@ -26,7 +24,6 @@ public class OfficeService {
         contactDAO = new ContactDAO(sessionFactory);
         provinceDAO = new ProvinceDAO(sessionFactory);
         tradeDAO = new TradeDAO(sessionFactory);
-        contactViewDAO = new ViewContactDAO(sessionFactory);
         extendedContactViewDAO = new ViewExtendedContactDAO(sessionFactory);
     }
 
@@ -94,17 +91,9 @@ public class OfficeService {
         tradeDAO.deleteEntity(id);
     }
 
-    public List<ViewContact> getViewContacts() {
-        return contactViewDAO.getEntities();
-    }
-
-    public ViewContact getViewContact(int id) {
-        return contactViewDAO.getEntity(id);
-    }
-
-    public List<ViewContact> searchContacts(String name, String trade, String email, String phone,
+    public List<ViewExtendedContact> searchContacts(String name, String trade, String email, String phone,
                                             String street, String postalCode, String city, String province) {
-        return contactViewDAO.searchEntities(name, trade, email, phone, street, postalCode, city, province);
+        return extendedContactViewDAO.searchEntities(name, trade, email, phone, street, postalCode, city, province);
     }
 
     public List<ViewExtendedContact> getViewExtendedContacts() {

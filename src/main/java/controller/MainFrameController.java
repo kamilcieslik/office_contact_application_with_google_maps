@@ -5,7 +5,6 @@ import database.entity.Contact;
 import database.entity.Province;
 import database.entity.Trade;
 import database.service.OfficeService;
-import database.view.ViewContact;
 import database.view.ViewExtendedContact;
 import exception.DataTooLongViolationException;
 import javafx.collections.FXCollections;
@@ -48,7 +47,7 @@ import java.util.prefs.Preferences;
 public class MainFrameController implements Initializable {
     private Preferences pref;
     private OfficeService officeService;
-    private ObservableList<ViewContact> viewContactObservableList = FXCollections.observableArrayList();
+    private ObservableList<ViewExtendedContact> viewContactObservableList = FXCollections.observableArrayList();
     private ObservableList<String> tradeObservableList = FXCollections.observableArrayList();
     private ObservableList<String> provinceObservableList = FXCollections.observableArrayList();
     private List<Trade> trades;
@@ -64,9 +63,9 @@ public class MainFrameController implements Initializable {
     private Button buttonAdd, buttonModify, buttonDelete, buttonStandardSearch, buttonSaveChanges,
             buttonClearSearchPreferences;
     @FXML
-    private TableView<ViewContact> tableViewContacts;
+    private TableView<ViewExtendedContact> tableViewContacts;
     @FXML
-    private TableColumn<ViewContact, String> tableColumnName, tableColumnTrade, tableColumnEmail, tableColumnPhone,
+    private TableColumn<ViewExtendedContact, String> tableColumnName, tableColumnTrade, tableColumnEmail, tableColumnPhone,
             tableColumnStreet, tableColumnPostalCode, tableColumnCity, tableColumnProvince;
     @FXML
     private RadioButton radioButtonMapMode, radioButtonDetailsMode, radioButtonSearchMode;
@@ -142,7 +141,7 @@ public class MainFrameController implements Initializable {
     @FXML
     void buttonClearSearchPreferences_onAction() {
         clearSearchPreferences();
-        refreshTableView(officeService.getViewContacts());
+        refreshTableView(officeService.getViewExtendedContacts());
         selectedContact = null;
         prepareContactComponents(false);
         setDefaultDetailsInformation();
@@ -182,20 +181,20 @@ public class MainFrameController implements Initializable {
         header.createCell(6).setCellValue("Miasto");
         header.createCell(7).setCellValue("Województwo");
 
-        ObservableList<ViewContact> excelData = FXCollections.observableArrayList();
-        excelData.addAll(officeService.getViewContacts());
+        ObservableList<ViewExtendedContact> excelData = FXCollections.observableArrayList();
+        excelData.addAll(officeService.getViewExtendedContacts());
 
         int index = 1;
-        for (ViewContact viewContact : excelData) {
+        for (ViewExtendedContact viewExtendedContact : excelData) {
             HSSFRow row = sheet.createRow(index);
-            row.createCell(0).setCellValue(viewContact.getName());
-            row.createCell(1).setCellValue(viewContact.getTrade());
-            row.createCell(2).setCellValue(viewContact.getEmail());
-            row.createCell(3).setCellValue(viewContact.getPhone());
-            row.createCell(4).setCellValue(viewContact.getStreet());
-            row.createCell(5).setCellValue(viewContact.getPostalCode());
-            row.createCell(6).setCellValue(viewContact.getCity());
-            row.createCell(7).setCellValue(viewContact.getProvince());
+            row.createCell(0).setCellValue(viewExtendedContact.getName());
+            row.createCell(1).setCellValue(viewExtendedContact.getTrade());
+            row.createCell(2).setCellValue(viewExtendedContact.getEmail());
+            row.createCell(3).setCellValue(viewExtendedContact.getPhone());
+            row.createCell(4).setCellValue(viewExtendedContact.getStreet());
+            row.createCell(5).setCellValue(viewExtendedContact.getPostalCode());
+            row.createCell(6).setCellValue(viewExtendedContact.getCity());
+            row.createCell(7).setCellValue(viewExtendedContact.getProvince());
             index++;
         }
 
@@ -413,9 +412,9 @@ public class MainFrameController implements Initializable {
         textAreaComments.setText(selectedContact.getComments());
     }
 
-    private void refreshTableView(List<ViewContact> viewContacts) {
+    private void refreshTableView(List<ViewExtendedContact> viewExtendedContacts) {
         viewContactObservableList.clear();
-        viewContactObservableList.addAll(viewContacts);
+        viewContactObservableList.addAll(viewExtendedContacts);
         tableViewContacts.setItems(viewContactObservableList);
     }
 
@@ -428,7 +427,7 @@ public class MainFrameController implements Initializable {
         tableColumnPostalCode.setCellValueFactory(new PropertyValueFactory<>("postalCode"));
         tableColumnCity.setCellValueFactory(new PropertyValueFactory<>("city"));
         tableColumnProvince.setCellValueFactory(new PropertyValueFactory<>("province"));
-        refreshTableView(officeService.getViewContacts());
+        refreshTableView(officeService.getViewExtendedContacts());
     }
 
     private void initRadioButtons() {

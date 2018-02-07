@@ -6,7 +6,6 @@ import database.entity.Contact;
 import database.entity.Province;
 import database.entity.Trade;
 import database.service.OfficeService;
-import database.view.ViewContact;
 import database.view.ViewExtendedContact;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -43,7 +42,6 @@ public class Main extends Application {
                     .addAnnotatedClass(Contact.class)
                     .addAnnotatedClass(Province.class)
                     .addAnnotatedClass(Trade.class)
-                    .addAnnotatedClass(ViewContact.class)
                     .addAnnotatedClass(ViewExtendedContact.class)
                     .buildSessionFactory();
         } catch (GenericJDBCException e) {

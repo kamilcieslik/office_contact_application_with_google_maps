@@ -34,4 +34,33 @@ public class ViewExtendedContactDAO {
         }
         return contact;
     }
+
+    public List<ViewExtendedContact> searchEntities(String name, String trade, String email, String phone,
+                                            String street, String postalCode, String city, String province) {
+        List<ViewExtendedContact> contacts = null;
+        try (Session currentSession = sessionFactory.getCurrentSession()) {
+            currentSession.beginTransaction();
+            Query<ViewExtendedContact> theQuery = currentSession.createQuery("select c from ViewExtendedContact c " +
+                            "where c.name like:searchedName and (:searchedTrade like 'Wszystkie' or " +
+                            "c.trade=:searchedTrade) and c.email like:searchedEmail " +
+                            "and c.phone like:searchedPhone and c.street like:searchedStreet " +
+                            "and c.postalCode like:searchedPostalCode " +
+                            "and c.city like:searchedCity " +
+                            "and (:searchedProvince like 'Wszystkie' or " +
+                            "c.province=:searchedProvince)"
+                    , ViewExtendedContact.class).setParameter("searchedName", "%" + name + "%")
+                    .setParameter("searchedTrade", trade)
+                    .setParameter("searchedEmail", "%" + email + "%")
+                    .setParameter("searchedPhone", "%" + phone + "%")
+                    .setParameter("searchedStreet", "%" + street + "%")
+                    .setParameter("searchedPostalCode", "%" + postalCode + "%")
+                    .setParameter("searchedCity", "%" + city + "%")
+                    .setParameter("searchedProvince", province);
+            contacts = theQuery.getResultList();
+            currentSession.getTransaction().commit();
+        } catch (Exception exc) {
+            exc.printStackTrace();
+        }
+        return contacts;
+    }
 }
