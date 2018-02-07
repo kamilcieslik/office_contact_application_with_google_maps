@@ -1,14 +1,10 @@
 package database.dao;
 
 import database.EntityCRUD;
-import database.entity.Address;
 import database.entity.Contact;
 import exception.DataTooLongViolationException;
-import exception.NameUniqueViolationException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.exception.ConstraintViolationException;
-import org.hibernate.exception.DataException;
 import org.hibernate.query.Query;
 
 import java.util.List;
@@ -36,10 +32,10 @@ public class ContactDAO implements EntityCRUD<Contact> {
             currentSession.beginTransaction();
             currentSession.saveOrUpdate(entity);
             currentSession.getTransaction().commit();
-        } catch (DataException exc) {
+        } catch (Throwable exc) {
             Throwable exceptionCause;
-            exceptionCause = new Throwable("przynajmniej jedna z głównych wartości obiektu jest za długa");
-            throw new DataTooLongViolationException("Błąd bazy danych", exceptionCause);
+            exceptionCause = new Throwable("Przynajmniej jedna z głównych wartości obiektu jest za długa.");
+            throw new DataTooLongViolationException("Błąd bazy danych.", exceptionCause);
         }
     }
 

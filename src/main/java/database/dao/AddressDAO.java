@@ -1,7 +1,7 @@
 package database.dao;
 
-import database.EntityCRUD;
 import database.entity.Address;
+import database.EntityCRUD;
 import exception.DataTooLongViolationException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;

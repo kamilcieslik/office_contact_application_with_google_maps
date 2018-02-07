@@ -1,7 +1,12 @@
 package database.entity;
 
+import org.hibernate.annotations.LazyToOne;
+import org.hibernate.annotations.LazyToOneOption;
+
 import javax.persistence.*;
-import javax.validation.constraints.Max;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "trade")
@@ -11,16 +16,8 @@ public class Trade {
     @Column(name = "id")
     private int id;
 
-    @Max(10)
     @Column(name = "trade")
     private String trade;
-
-    // 'Reverse' references:
-    @OneToOne(mappedBy = "trade", cascade = {CascadeType.DETACH,
-            CascadeType.MERGE,
-            CascadeType.PERSIST,
-            CascadeType.REFRESH})
-    private Contact contact;
 
     public Trade() {
     }

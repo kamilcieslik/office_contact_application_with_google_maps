@@ -1,8 +1,6 @@
 package database.dao;
 
 import database.EntityCRUD;
-import database.entity.Address;
-import database.entity.Contact;
 import database.entity.Province;
 import exception.DataTooLongViolationException;
 import exception.NameUniqueViolationException;

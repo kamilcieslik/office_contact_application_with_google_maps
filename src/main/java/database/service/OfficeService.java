@@ -1,13 +1,12 @@
 package database.service;
 
-import database.dao.AddressDAO;
-import database.dao.ContactDAO;
-import database.dao.ProvinceDAO;
-import database.dao.TradeDAO;
+import database.dao.*;
 import database.entity.Address;
+import database.view.ViewContact;
 import database.entity.Contact;
 import database.entity.Province;
 import database.entity.Trade;
+import database.view.ViewExtendedContact;
 import exception.DataTooLongViolationException;
 import exception.NameUniqueViolationException;
 import org.hibernate.SessionFactory;
@@ -19,12 +18,16 @@ public class OfficeService {
     private ContactDAO contactDAO;
     private ProvinceDAO provinceDAO;
     private TradeDAO tradeDAO;
+    private ViewContactDAO contactViewDAO;
+    private ViewExtendedContactDAO extendedContactViewDAO;
 
     public OfficeService(SessionFactory sessionFactory) {
         addressDAO = new AddressDAO(sessionFactory);
         contactDAO = new ContactDAO(sessionFactory);
         provinceDAO = new ProvinceDAO(sessionFactory);
         tradeDAO = new TradeDAO(sessionFactory);
+        contactViewDAO = new ViewContactDAO(sessionFactory);
+        extendedContactViewDAO = new ViewExtendedContactDAO(sessionFactory);
     }
 
     public List<Address> getAddresses() {
@@ -47,7 +50,7 @@ public class OfficeService {
         return contactDAO.getEntities();
     }
 
-    public void saveAddress(Contact contact) throws DataTooLongViolationException {
+    public void saveContact(Contact contact) throws DataTooLongViolationException {
         contactDAO.saveEntity(contact);
     }
 
@@ -89,5 +92,26 @@ public class OfficeService {
 
     public void deleteTrade(int id) {
         tradeDAO.deleteEntity(id);
+    }
+
+    public List<ViewContact> getViewContacts() {
+        return contactViewDAO.getEntities();
+    }
+
+    public ViewContact getViewContact(int id) {
+        return contactViewDAO.getEntity(id);
+    }
+
+    public List<ViewContact> searchContacts(String name, String trade, String email, String phone,
+                                            String street, String postalCode, String city, String province) {
+        return contactViewDAO.searchEntities(name, trade, email, phone, street, postalCode, city, province);
+    }
+
+    public List<ViewExtendedContact> getViewExtendedContacts() {
+        return extendedContactViewDAO.getEntities();
+    }
+
+    public ViewExtendedContact getViewExtendedContact(int id) {
+        return extendedContactViewDAO.getEntity(id);
     }
 }

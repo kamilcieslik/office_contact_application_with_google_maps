@@ -1,5 +1,8 @@
 package database.entity;
 
+import org.hibernate.annotations.LazyToOne;
+import org.hibernate.annotations.LazyToOneOption;
+
 import javax.persistence.*;
 
 @Entity
@@ -19,12 +22,12 @@ public class Address {
     @Column(name = "postal_code")
     private String postalCode;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @LazyToOne(LazyToOneOption.NO_PROXY)
     @JoinColumn(name = "province_id")
     private Province province;
 
-    // 'Reverse' references:
-    @OneToOne(mappedBy = "address", cascade = {CascadeType.DETACH,
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "address", cascade = {CascadeType.DETACH,
             CascadeType.MERGE,
             CascadeType.PERSIST,
             CascadeType.REFRESH})

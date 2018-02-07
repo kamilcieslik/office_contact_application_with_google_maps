@@ -13,13 +13,6 @@ public class Province {
     @Column(name = "province")
     private String province;
 
-    // 'Reverse' references:
-    @OneToOne(mappedBy = "province", cascade = {CascadeType.DETACH,
-            CascadeType.MERGE,
-            CascadeType.PERSIST,
-            CascadeType.REFRESH})
-    private Address address;
-
     public Province() {
     }
 
