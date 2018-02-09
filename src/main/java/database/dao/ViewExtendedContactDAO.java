@@ -36,7 +36,8 @@ public class ViewExtendedContactDAO {
     }
 
     public List<ViewExtendedContact> searchEntities(String name, String trade, String email, String phone,
-                                                    String street, String postalCode, String city, String province) {
+                                                    String street, String postalCode, String city, String province,
+                                                    Boolean description, Boolean comments) {
         List<ViewExtendedContact> contacts = null;
         try (Session currentSession = sessionFactory.getCurrentSession()) {
             currentSession.beginTransaction();
@@ -47,7 +48,9 @@ public class ViewExtendedContactDAO {
                             "and c.postalCode like:searchedPostalCode " +
                             "and c.city like:searchedCity " +
                             "and (:searchedProvince like 'Wszystkie' or " +
-                            "c.province=:searchedProvince)"
+                            "c.province=:searchedProvince)" +
+                            "and (:searchedDescription!=true or c.description!='')" +
+                            "and (:searchedComments!=true or c.comments='')"
                     , ViewExtendedContact.class).setParameter("searchedName", "%" + name + "%")
                     .setParameter("searchedTrade", trade)
                     .setParameter("searchedEmail", "%" + email + "%")
@@ -55,7 +58,9 @@ public class ViewExtendedContactDAO {
                     .setParameter("searchedStreet", "%" + street + "%")
                     .setParameter("searchedPostalCode", "%" + postalCode + "%")
                     .setParameter("searchedCity", "%" + city + "%")
-                    .setParameter("searchedProvince", province);
+                    .setParameter("searchedProvince", province)
+                    .setParameter("searchedDescription", description)
+                    .setParameter("searchedComments", comments);
             contacts = theQuery.getResultList();
             currentSession.getTransaction().commit();
         } catch (Exception exc) {

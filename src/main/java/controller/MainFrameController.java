@@ -119,15 +119,17 @@ public class MainFrameController implements Initializable {
         ViewExtendedContact contact = tableViewContacts.getSelectionModel().getSelectedItem();
         if (contact != null) {
             try {
+                Integer selectedContactPosition = tableViewContacts.getSelectionModel().getSelectedIndex();
                 Contact selectedContact = officeService.getContact(tableViewContacts.getSelectionModel().getSelectedItem().getId());
                 selectedContact.setDescription(textAreaDescription.getText());
                 selectedContact.setComments(textAreaComments.getText());
                 officeService.saveContact(selectedContact);
                 refreshTableView(officeService.getViewExtendedContacts());
+                tableViewContacts.getSelectionModel().select(selectedContactPosition);
             } catch (DataTooLongViolationException e) {
                 showMessageBox(Alert.AlertType.WARNING,
                         "Operacja nie powiodła się.",
-                        "Powód: " + e.getCause().getMessage()+".").showAndWait();
+                        "Powód: " + e.getCause().getMessage() + ".").showAndWait();
             }
         }
     }
@@ -611,14 +613,15 @@ public class MainFrameController implements Initializable {
     }
 
     private void searchContacts() {
-        refreshTableView(officeService.searchContacts(textFieldName.getText(),
-                comboBoxTrade.getSelectionModel().getSelectedItem(), textFieldEmail.getText(), textFieldPhone.getText(),
-                textFieldStreet.getText(), textFieldPostalCode.getText(), textFieldCity.getText(),
-                comboBoxProvince.getSelectionModel().getSelectedItem()));
         if (tableViewContacts.getSelectionModel().getSelectedItem() != null) {
             prepareContactComponents(false);
             setDefaultDetailsInformation();
         }
+        refreshTableView(officeService.searchContacts(textFieldName.getText(),
+                comboBoxTrade.getSelectionModel().getSelectedItem(), textFieldEmail.getText(), textFieldPhone.getText(),
+                textFieldStreet.getText(), textFieldPostalCode.getText(), textFieldCity.getText(),
+                comboBoxProvince.getSelectionModel().getSelectedItem(), checkBoxDescription.isSelected(),
+                checkBoxComments.isSelected()));
     }
 
     private Alert showMessageBox(Alert.AlertType alertType, String header, String content) {

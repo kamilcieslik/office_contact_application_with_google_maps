@@ -248,6 +248,7 @@ public class ModifyTradesAndProvincesController implements Initializable {
                                         refreshProvinceTableView(officeService.getProvinces());
                                         textAreaProvinceDialog.setStyle("-fx-text-fill: #008000;");
                                         textAreaProvinceDialog.setText("Operacja modyfikacji województwa przebiegła pomyślnie.");
+                                        clearProvinceTextFields();
                                     } catch (DataTooLongViolationException | NameUniqueViolationException e) {
                                         textAreaProvinceDialog.setStyle("-fx-text-fill: #ff0000;");
                                         textAreaProvinceDialog.setText("Operacja modyfikacji województwa nie powiodła się.\n" +
@@ -299,6 +300,7 @@ public class ModifyTradesAndProvincesController implements Initializable {
                                         refreshTradeTableView(officeService.getTrades());
                                         textAreaTradeDialog.setStyle("-fx-text-fill: #008000;");
                                         textAreaTradeDialog.setText("Operacja modyfikacji branży przebiegła pomyślnie.");
+                                        clearTradeTextFields();
                                     } catch (DataTooLongViolationException | NameUniqueViolationException e) {
                                         textAreaTradeDialog.setStyle("-fx-text-fill: #ff0000;");
                                         textAreaTradeDialog.setText("Operacja modyfikacji branży nie powiodła się.\n" +
