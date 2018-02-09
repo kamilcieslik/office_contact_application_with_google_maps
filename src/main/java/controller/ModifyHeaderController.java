@@ -2,8 +2,6 @@ package controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.springframework.stereotype.Controller;
@@ -16,7 +14,13 @@ import java.util.prefs.Preferences;
 public class ModifyHeaderController implements Initializable {
     private Preferences pref;
 
-    @FXML private TextField textFieldHeader;
+    @FXML
+    private TextField textFieldHeader;
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        pref = Preferences.userRoot();
+    }
 
     @FXML
     void buttonCancel_onAction() {
@@ -31,12 +35,7 @@ public class ModifyHeaderController implements Initializable {
         stage.close();
     }
 
-    public void setCurrentHeaderText(String headerText){
+    public void setCurrentHeaderText(String headerText) {
         textFieldHeader.setText(headerText);
-    }
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        pref = Preferences.userRoot();
     }
 }

@@ -50,17 +50,17 @@ public class ModifyTradesAndProvincesController implements Initializable {
     @FXML
     private TableColumn<Province, String> tableColumnProvinceName;
 
+    public void setFrameObjects(OfficeService officeService) {
+        this.officeService = officeService;
+        initTradeTableView();
+        initProvinceTableView();
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Preferences pref = Preferences.userRoot();
         labelHeader.setText(pref.get("header",
                 "Inter Art Marcin Rogal, ul. Wiktorowska 34, Wapiennik, 42-120 Miedźno, Polska"));
-    }
-
-    public void setFrameObjects(OfficeService officeService) {
-        this.officeService = officeService;
-        initTradeTableView();
-        initProvinceTableView();
     }
 
     public String getTextOfProvinceLabel() {

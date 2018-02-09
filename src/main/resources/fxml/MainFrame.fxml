@@ -28,14 +28,14 @@
         <menus>
           <Menu mnemonicParsing="false" text="Edycja">
             <items>
-                  <MenuItem fx:id="menuItemModifyTradesAndProvinces" mnemonicParsing="false" onAction="#menuItemModifyTradesAndProvinces_onAction" text="Modyfikacja bazy branż i województw" />
-                  <MenuItem fx:id="menuItemModifyHeader" mnemonicParsing="false" onAction="#menuItemModifyHeader_onAction" text="Modyfikacja tekstu nagłówka" />
+                  <MenuItem mnemonicParsing="false" onAction="#menuItemModifyTradesAndProvinces_onAction" text="Modyfikacja bazy branż i województw" />
+                  <MenuItem mnemonicParsing="false" onAction="#menuItemModifyHeader_onAction" text="Modyfikacja tekstu nagłówka" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Eksport">
             <items>
-              <MenuItem fx:id="menuItemNormalDataExport" mnemonicParsing="false" onAction="#menuItemNormalDataExport_onAction" text="MS Excel &lt;- Kontakty" />
-                  <MenuItem fx:id="menuItemExtendedDataExport" mnemonicParsing="false" onAction="#menuItemExtendedDataExport_onAction" text="MS Excel &lt;- Kontakty z opisem i uwagami" />
+              <MenuItem mnemonicParsing="false" onAction="#menuItemNormalDataExport_onAction" text="MS Excel &lt;- Kontakty" />
+                  <MenuItem mnemonicParsing="false" onAction="#menuItemExtendedDataExport_onAction" text="MS Excel &lt;- Kontakty z opisem i uwagami" />
             </items>
           </Menu>
         </menus>
@@ -74,12 +74,12 @@
       </HBox>
       <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
          <children>
-            <Region prefHeight="200.0" prefWidth="10.0" />
+            <Region prefHeight="200.0" prefWidth="14.0" />
             <VBox prefHeight="854.0" prefWidth="460.0" style="-fx-background-color: #000; -fx-effect: dropshadow(two-pass-box, #848484, 0, 0.5, -4, 5);" HBox.hgrow="ALWAYS">
                <children>
                   <HBox alignment="TOP_CENTER" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #545469;">
                      <children>
-                        <Button fx:id="buttonAdd" minHeight="25.0" minWidth="80.0" mnemonicParsing="false" onAction="#buttonAdd_onAction" prefHeight="25.0" prefWidth="80.0" style="-fx-background-color: #7b604a; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);" text="Dodaj" textFill="WHITE">
+                        <Button minHeight="25.0" minWidth="80.0" mnemonicParsing="false" onAction="#buttonAdd_onAction" prefHeight="25.0" prefWidth="80.0" style="-fx-background-color: #7b604a; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);" text="Dodaj" textFill="WHITE">
                            <HBox.margin>
                               <Insets top="13.0" />
                            </HBox.margin>
@@ -93,7 +93,7 @@
                         <HBox fx:id="hBoxSelectedContactButtons" maxHeight="10.0">
                            <children>
                               <Region maxWidth="30.0" prefHeight="200.0" prefWidth="200.0" />
-                              <Button fx:id="buttonModify" minHeight="25.0" minWidth="80.0" mnemonicParsing="false" onAction="#buttonModify_onAction" prefHeight="25.0" prefWidth="80.0" style="-fx-background-color: #7b604a; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);" text="Modyfikuj" textFill="WHITE">
+                              <Button minHeight="25.0" minWidth="80.0" mnemonicParsing="false" onAction="#buttonModify_onAction" prefHeight="25.0" prefWidth="80.0" style="-fx-background-color: #7b604a; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);" text="Modyfikuj" textFill="WHITE">
                                  <font>
                                     <Font name="System Bold" size="12.0" />
                                  </font>
@@ -102,7 +102,7 @@
                                  </cursor>
                               </Button>
                               <Region maxWidth="30.0" prefHeight="200.0" prefWidth="200.0" />
-                              <Button fx:id="buttonDelete" minHeight="25.0" minWidth="80.0" mnemonicParsing="false" onAction="#buttonDelete_onAction" prefHeight="25.0" prefWidth="80.0" style="-fx-background-color: #7b604a; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);" text="Usuń" textFill="WHITE">
+                              <Button minHeight="25.0" minWidth="80.0" mnemonicParsing="false" onAction="#buttonDelete_onAction" prefHeight="25.0" prefWidth="80.0" style="-fx-background-color: #7b604a; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);" text="Usuń" textFill="WHITE">
                                  <font>
                                     <Font name="System Bold" size="12.0" />
                                  </font>
@@ -202,7 +202,7 @@
                               <HBox maxHeight="10.0" prefHeight="100.0" prefWidth="200.0">
                                  <children>
                                     <Region maxHeight="10.0" prefHeight="200.0" prefWidth="200.0" HBox.hgrow="SOMETIMES" />
-                                    <Label fx:id="labelSearchMode" alignment="CENTER" minWidth="276.0" prefHeight="30.0" prefWidth="684.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 30, 0, 0, 0);" text="WYSZUKIWANIE KONTAKTÓW" textFill="WHITE">
+                                    <Label alignment="CENTER" minWidth="276.0" prefHeight="30.0" prefWidth="684.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 30, 0, 0, 0);" text="WYSZUKIWANIE KONTAKTÓW" textFill="WHITE">
                                        <font>
                                           <Font size="20.0" />
                                        </font>
@@ -302,7 +302,7 @@
                                                       <Insets />
                                                    </VBox.margin>
                                                 </Label>
-                                                <ComboBox fx:id="comboBoxTrade" onAction="#comboBoxTrade_onAction" prefWidth="150.0" />
+                                                <ComboBox fx:id="comboBoxTrade" prefWidth="150.0" />
                                              </children>
                                           </VBox>
                                        </children>
@@ -365,7 +365,7 @@
                                                       <Font size="16.0" />
                                                    </font>
                                                 </Label>
-                                                <ComboBox fx:id="comboBoxProvince" onAction="#comboBoxProvince_onAction" prefWidth="150.0" />
+                                                <ComboBox fx:id="comboBoxProvince" prefWidth="150.0" />
                                              </children>
                                           </VBox>
                                        </children>
@@ -373,7 +373,7 @@
                                           <Insets left="10.0" right="10.0" top="10.0" />
                                        </VBox.margin>
                                     </HBox>
-                                    <CheckBox fx:id="checkBoxDescription" mnemonicParsing="false" onAction="#checkBoxDescription_onAction" text="Pokaż tylko kontakty posiadające opis" textFill="WHITE">
+                                    <CheckBox fx:id="checkBoxDescription" mnemonicParsing="false" text="Pokaż tylko kontakty posiadające opis" textFill="WHITE">
                                        <font>
                                           <Font size="16.0" />
                                        </font>
@@ -384,7 +384,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </CheckBox>
-                                    <CheckBox fx:id="checkBoxComments" mnemonicParsing="false" onAction="#checkBoxComments_onAction" text="Nie pokazuj kontaktów z uwagami" textFill="WHITE">
+                                    <CheckBox fx:id="checkBoxComments" mnemonicParsing="false" text="Nie pokazuj kontaktów z uwagami" textFill="WHITE">
                                        <font>
                                           <Font size="16.0" />
                                        </font>
@@ -399,7 +399,7 @@
                               </VBox>
                               <HBox alignment="CENTER">
                                  <children>
-                                    <Button fx:id="buttonStandardSearch" mnemonicParsing="false" onAction="#buttonStandardSearch_onAction" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0); -fx-background-color: #df8f4e; -fx-background-radius: 10;" text="Wyszukaj">
+                                    <Button mnemonicParsing="false" onAction="#buttonStandardSearch_onAction" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0); -fx-background-color: #df8f4e; -fx-background-radius: 10;" text="Wyszukaj">
                                        <font>
                                           <Font name="System Bold" size="14.0" />
                                        </font>
@@ -415,7 +415,7 @@
                               <Region prefHeight="0.0" prefWidth="762.0" VBox.vgrow="SOMETIMES" />
                               <HBox alignment="CENTER">
                                  <children>
-                                    <Button fx:id="buttonClearSearchPreferences" mnemonicParsing="false" onAction="#buttonClearSearchPreferences_onAction" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0); -fx-background-color: #df8f4e; -fx-background-radius: 10;" text="Wyczyść preferencje wyszukiwania">
+                                    <Button mnemonicParsing="false" onAction="#buttonClearSearchPreferences_onAction" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0); -fx-background-color: #df8f4e; -fx-background-radius: 10;" text="Wyczyść preferencje wyszukiwania">
                                        <font>
                                           <Font name="System Bold" size="14.0" />
                                        </font>
@@ -608,10 +608,10 @@
                   <Region maxHeight="10.0" minHeight="10.0" prefHeight="200.0" prefWidth="200.0" />
                </children>
             </VBox>
-            <Region prefHeight="200.0" prefWidth="10.0" />
+            <Region prefHeight="200.0" prefWidth="14.0" />
          </children>
          <VBox.margin>
-            <Insets bottom="10.0" />
+            <Insets bottom="13.0" />
          </VBox.margin>
       </HBox>
    </children>

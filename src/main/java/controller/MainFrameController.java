@@ -17,7 +17,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -54,13 +53,9 @@ public class MainFrameController implements Initializable {
     private List<Province> provinces;
 
     @FXML
-    private MenuItem menuItemModifyTradesAndProvinces, menuItemNormalDataExport,
-            menuItemExtendedDataExport, menuItemModifyHeader;
+    private Label labelHeader, labelDetails;
     @FXML
-    private Label labelHeader, labelSearchMode, labelDetails;
-    @FXML
-    private Button buttonAdd, buttonModify, buttonDelete, buttonStandardSearch, buttonSaveChanges,
-            buttonClearSearchPreferences;
+    private Button buttonSaveChanges;
     @FXML
     private TableView<ViewExtendedContact> tableViewContacts;
     @FXML
@@ -101,17 +96,66 @@ public class MainFrameController implements Initializable {
 
     @FXML
     void buttonAdd_onAction() {
+        Boolean sceneWasLoadedSuccessfully = true;
+        FXMLLoader loader = new FXMLLoader();
+        try {
+            loader.setLocation(getClass().getResource("../fxml/AddContact.fxml"));
+            loader.load();
+        } catch (IOException ioEcx) {
+            Logger.getLogger(MainFrameController.class.getName()).log(Level.SEVERE, null, ioEcx);
+            sceneWasLoadedSuccessfully = false;
+        }
 
+        if (sceneWasLoadedSuccessfully) {
+            AddContactController display = loader.getController();
+            display.setFrameObjects(officeService);
+            Parent parent = loader.getRoot();
+            Stage stage = Main.getMainStage();
+            Stage currentStage = (Stage) buttonSaveChanges.getScene().getWindow();
+            Scene scene = new Scene(parent, currentStage.getWidth() - 16.0, currentStage.getHeight() - 42.5);
+            stage.setScene(scene);
+        }
     }
 
     @FXML
     void buttonDelete_onAction() {
-
+        if (tableViewContacts.getSelectionModel().getSelectedItem() != null) {
+            ButtonType confirmButton = new ButtonType("Potwierdź", ButtonBar.ButtonData.OK_DONE);
+            ButtonType cancelButton = new ButtonType("Anuluj", ButtonBar.ButtonData.CANCEL_CLOSE);
+            showConfirmMessageBox(Alert.AlertType.CONFIRMATION,
+                    confirmButton, cancelButton).showAndWait()
+                    .ifPresent(rs -> {
+                        if (rs.getText().equals("Potwierdź")) {
+                            officeService.deleteContact(tableViewContacts.getSelectionModel().getSelectedItem().getId());
+                            refreshTableView(officeService.getViewExtendedContacts());
+                            prepareContactComponents(false);
+                            setDefaultDetailsInformation();
+                        }
+                    });
+        }
     }
 
     @FXML
     void buttonModify_onAction() {
+        Boolean sceneWasLoadedSuccessfully = true;
+        FXMLLoader loader = new FXMLLoader();
+        try {
+            loader.setLocation(getClass().getResource("../fxml/ModifyContact.fxml"));
+            loader.load();
+        } catch (IOException ioEcx) {
+            Logger.getLogger(MainFrameController.class.getName()).log(Level.SEVERE, null, ioEcx);
+            sceneWasLoadedSuccessfully = false;
+        }
 
+        if (sceneWasLoadedSuccessfully) {
+            ModifyContactController display = loader.getController();
+            display.setFrameObjects(officeService, tableViewContacts.getSelectionModel().getSelectedItem());
+            Parent parent = loader.getRoot();
+            Stage stage = Main.getMainStage();
+            Stage currentStage = (Stage) buttonSaveChanges.getScene().getWindow();
+            Scene scene = new Scene(parent, currentStage.getWidth() - 16.0, currentStage.getHeight() - 42.5);
+            stage.setScene(scene);
+        }
     }
 
     @FXML
@@ -145,26 +189,6 @@ public class MainFrameController implements Initializable {
         refreshTableView(officeService.getViewExtendedContacts());
         prepareContactComponents(false);
         setDefaultDetailsInformation();
-    }
-
-    @FXML
-    void checkBoxComments_onAction() {
-
-    }
-
-    @FXML
-    void checkBoxDescription_onAction() {
-
-    }
-
-    @FXML
-    void comboBoxProvince_onAction() {
-
-    }
-
-    @FXML
-    void comboBoxTrade_onAction() {
-
     }
 
     @FXML
@@ -631,6 +655,15 @@ public class MainFrameController implements Initializable {
         alert.setTitle("Ostrzeżenie");
         alert.setHeaderText(header);
         alert.setContentText(content);
+        return alert;
+    }
+
+    private Alert showConfirmMessageBox(Alert.AlertType alertType, ButtonType confirmButton, ButtonType cancelButton) {
+        Alert alert = new Alert(alertType, "W celu potwierdzenia naciśnij przycisk.", confirmButton, cancelButton);
+        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+        stage.getIcons().add(new Image("image/icon.png"));
+        alert.setTitle("Operacja wymaga potwierdzenia");
+        alert.setHeaderText("Usunięcie kontaktu jest operacją nieodwracalną.");
         return alert;
     }
 }

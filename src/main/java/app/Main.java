@@ -27,7 +27,10 @@ public class Main extends Application {
     private static Stage mainStage;
     private SessionFactory sessionFactory;
     private Preferences pref;
-    private Boolean mainFrameIsCurrentStage = true;
+
+    public static Stage getMainStage() {
+        return mainStage;
+    }
 
     private static void setupLog4J() {
         System.setProperty("log4j.configuration", new File(".", File.separatorChar +
@@ -60,7 +63,7 @@ public class Main extends Application {
 
         FXMLLoader loader = new FXMLLoader();
         try {
-            setMainStage(primaryStage);
+            Main.mainStage = primaryStage;
             loader.setLocation(getClass().getResource("../fxml/MainFrame.fxml"));
             loader.load();
         } catch (IOException ioEcx) {
@@ -73,7 +76,7 @@ public class Main extends Application {
             primaryStage.setTitle("Inter Art - Kontakty");
             primaryStage.getIcons().add(new Image("/image/icon.png"));
             primaryStage.setMinWidth(970);
-            primaryStage.setMinHeight(850);
+            primaryStage.setMinHeight(890);
             primaryStage.setScene(new Scene(root, pref.getDouble("scene_width", 1600),
                     pref.getDouble("scene_height", 900)));
             MainFrameController display = loader.getController();
@@ -86,22 +89,13 @@ public class Main extends Application {
     public void stop() {
         sessionFactory.close();
         pref = Preferences.userRoot();
-        if (mainFrameIsCurrentStage) {
-            pref.putDouble("scene_width", getMainStage().getWidth() - 16.0);
-            pref.putDouble("scene_height", getMainStage().getHeight() - 42.5);
-        }
+        pref.putDouble("scene_width", getMainStage().getWidth() - 16.0);
+        pref.putDouble("scene_height", getMainStage().getHeight() - 42.5);
+
         System.exit(0);
     }
 
     public static void main(String[] args) {
         launch(args);
-    }
-
-    public static Stage getMainStage() {
-        return mainStage;
-    }
-
-    public static void setMainStage(Stage mainStage) {
-        Main.mainStage = mainStage;
     }
 }

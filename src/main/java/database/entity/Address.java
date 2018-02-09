@@ -27,12 +27,6 @@ public class Address {
     @JoinColumn(name = "province_id")
     private Province province;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "address", cascade = {CascadeType.DETACH,
-            CascadeType.MERGE,
-            CascadeType.PERSIST,
-            CascadeType.REFRESH})
-    private Contact contact;
-
     public Address() {
     }
 
