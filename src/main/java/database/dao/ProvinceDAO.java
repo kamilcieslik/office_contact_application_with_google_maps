@@ -10,6 +10,7 @@ import org.hibernate.exception.ConstraintViolationException;
 import org.hibernate.exception.DataException;
 import org.hibernate.query.Query;
 
+import javax.persistence.PersistenceException;
 import java.util.List;
 
 public class ProvinceDAO implements EntityCRUD<Province> {
@@ -35,14 +36,19 @@ public class ProvinceDAO implements EntityCRUD<Province> {
             currentSession.beginTransaction();
             currentSession.saveOrUpdate(entity);
             currentSession.getTransaction().commit();
-        } catch (ConstraintViolationException e) {
-            Throwable exceptionCause;
-            exceptionCause = new Throwable("obiekt o nazwie '" + entity.getProvince() + "' istnieje już w bazie danych");
-            throw new NameUniqueViolationException("Błąd bazy danych", exceptionCause);
-        } catch (DataException exc) {
-            Throwable exceptionCause;
-            exceptionCause = new Throwable("nazwa '" + entity.getProvince() + "' obiektu jest za długa");
-            throw new DataTooLongViolationException("Błąd bazy danych", exceptionCause);
+        } catch (PersistenceException e) {
+            Throwable eCause = e.getCause();
+            while ((eCause != null) && !((eCause instanceof ConstraintViolationException) || (eCause instanceof DataException)))
+                eCause = eCause.getCause();
+            if (eCause instanceof ConstraintViolationException) {
+                Throwable exceptionCause;
+                exceptionCause = new Throwable("obiekt o nazwie '" + entity.getProvince() + "' istnieje już w bazie danych");
+                throw new NameUniqueViolationException("Błąd bazy danych", exceptionCause);
+            } else if (eCause != null) {
+                Throwable exceptionCause;
+                exceptionCause = new Throwable("nazwa '" + entity.getProvince() + "' jest za długa");
+                throw new DataTooLongViolationException("Błąd bazy danych", exceptionCause);
+            }
         }
     }
 

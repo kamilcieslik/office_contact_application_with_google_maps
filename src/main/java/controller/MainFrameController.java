@@ -52,7 +52,6 @@ public class MainFrameController implements Initializable {
     private ObservableList<String> provinceObservableList = FXCollections.observableArrayList();
     private List<Trade> trades;
     private List<Province> provinces;
-    private Contact selectedContact = null;
 
     @FXML
     private MenuItem menuItemModifyTradesAndProvinces, menuItemNormalDataExport,
@@ -117,18 +116,18 @@ public class MainFrameController implements Initializable {
 
     @FXML
     void buttonSaveChanges_onAction() {
-        if (selectedContact != null) {
+        ViewExtendedContact contact = tableViewContacts.getSelectionModel().getSelectedItem();
+        if (contact != null) {
             try {
+                Contact selectedContact = officeService.getContact(tableViewContacts.getSelectionModel().getSelectedItem().getId());
                 selectedContact.setDescription(textAreaDescription.getText());
                 selectedContact.setComments(textAreaComments.getText());
                 officeService.saveContact(selectedContact);
-                showMessageBox(Alert.AlertType.INFORMATION, "Informacja",
-                        "Operacja przebiegła pomyślnie.",
-                        "Opis i komentarz zostały zaktualizowane.").showAndWait();
+                refreshTableView(officeService.getViewExtendedContacts());
             } catch (DataTooLongViolationException e) {
-                showMessageBox(Alert.AlertType.WARNING, "Ostrzeżenie",
+                showMessageBox(Alert.AlertType.WARNING,
                         "Operacja nie powiodła się.",
-                        e.getCause().getMessage()).showAndWait();
+                        "Powód: " + e.getCause().getMessage()+".").showAndWait();
             }
         }
     }
@@ -142,7 +141,6 @@ public class MainFrameController implements Initializable {
     void buttonClearSearchPreferences_onAction() {
         clearSearchPreferences();
         refreshTableView(officeService.getViewExtendedContacts());
-        selectedContact = null;
         prepareContactComponents(false);
         setDefaultDetailsInformation();
     }
@@ -205,11 +203,11 @@ public class MainFrameController implements Initializable {
             Desktop desktop = Desktop.getDesktop();
             desktop.open(new File("inter_art_contacts_standard_data.xls"));
         } catch (IOException e) {
-            showMessageBox(Alert.AlertType.WARNING, "Ostrzeżenie",
+            showMessageBox(Alert.AlertType.WARNING,
                     "Operacja utworzenia pliku nie powiodła się.",
                     "Powód: " + e.getCause().getMessage()).showAndWait();
         } catch (UnsupportedOperationException e) {
-            showMessageBox(Alert.AlertType.WARNING, "Ostrzeżenie",
+            showMessageBox(Alert.AlertType.WARNING,
                     "Plik został utworzony w domyślnej lokalizacji,\nale nie można go otworzyć.",
                     "Powód: brak wymaganej aplikacji.");
         }
@@ -257,11 +255,11 @@ public class MainFrameController implements Initializable {
             Desktop desktop = Desktop.getDesktop();
             desktop.open(new File("inter_art_contacts_extended_data.xls"));
         } catch (IOException e) {
-            showMessageBox(Alert.AlertType.WARNING, "Ostrzeżenie",
+            showMessageBox(Alert.AlertType.WARNING,
                     "Operacja utworzenia pliku nie powiodła się.",
                     "Powód: " + e.getCause().getMessage()).showAndWait();
         } catch (UnsupportedOperationException e) {
-            showMessageBox(Alert.AlertType.WARNING, "Ostrzeżenie",
+            showMessageBox(Alert.AlertType.WARNING,
                     "Plik został utworzony w domyślnej lokalizacji,\nale nie można go otworzyć.",
                     "Powód: brak wymaganej aplikacji.");
         }
@@ -382,19 +380,11 @@ public class MainFrameController implements Initializable {
     @FXML
     void tableViewContacts_onMouseClicked() {
         try {
-            if (selectedContact != null) {
-                if (tableViewContacts.getSelectionModel().getSelectedItem().getId() != selectedContact.getId()) {
-                    selectedContact = officeService.getContact(tableViewContacts.getSelectionModel().getSelectedItem().getId());
-                    setDetailsInformation();
-                    prepareContactComponents(true);
-                }
-            } else {
-                selectedContact = officeService.getContact(tableViewContacts.getSelectionModel().getSelectedItem().getId());
-                setDetailsInformation();
+            if (tableViewContacts.getSelectionModel().getSelectedItem() != null) {
+                setDetailsInformation(tableViewContacts.getSelectionModel().getSelectedItem());
                 prepareContactComponents(true);
             }
         } catch (NullPointerException nullExc) {
-            selectedContact = null;
             prepareContactComponents(false);
             setDefaultDetailsInformation();
         }
@@ -406,7 +396,7 @@ public class MainFrameController implements Initializable {
         textAreaComments.setText("");
     }
 
-    private void setDetailsInformation() {
+    private void setDetailsInformation(ViewExtendedContact selectedContact) {
         labelDetails.setText(selectedContact.getName());
         textAreaDescription.setText(selectedContact.getDescription());
         textAreaComments.setText(selectedContact.getComments());
@@ -625,18 +615,17 @@ public class MainFrameController implements Initializable {
                 comboBoxTrade.getSelectionModel().getSelectedItem(), textFieldEmail.getText(), textFieldPhone.getText(),
                 textFieldStreet.getText(), textFieldPostalCode.getText(), textFieldCity.getText(),
                 comboBoxProvince.getSelectionModel().getSelectedItem()));
-        if (selectedContact != null) {
-            selectedContact = null;
+        if (tableViewContacts.getSelectionModel().getSelectedItem() != null) {
             prepareContactComponents(false);
             setDefaultDetailsInformation();
         }
     }
 
-    private Alert showMessageBox(Alert.AlertType alertType, String title, String header, String content) {
+    private Alert showMessageBox(Alert.AlertType alertType, String header, String content) {
         Alert alert = new Alert(alertType);
         Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
         stage.getIcons().add(new Image("image/icon.png"));
-        alert.setTitle(title);
+        alert.setTitle("Ostrzeżenie");
         alert.setHeaderText(header);
         alert.setContentText(content);
         return alert;

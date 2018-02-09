@@ -3,11 +3,14 @@ package database.dao;
 import database.entity.Address;
 import database.EntityCRUD;
 import exception.DataTooLongViolationException;
+import exception.NameUniqueViolationException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.exception.ConstraintViolationException;
 import org.hibernate.exception.DataException;
 import org.hibernate.query.Query;
 
+import javax.persistence.PersistenceException;
 import java.util.List;
 
 public class AddressDAO implements EntityCRUD<Address> {
@@ -33,10 +36,15 @@ public class AddressDAO implements EntityCRUD<Address> {
             currentSession.beginTransaction();
             currentSession.saveOrUpdate(entity);
             currentSession.getTransaction().commit();
-        } catch (DataException exc) {
-            Throwable exceptionCause;
-            exceptionCause = new Throwable("przynajmniej jedna z głównych wartości obiektu jest za długa");
-            throw new DataTooLongViolationException("Błąd bazy danych", exceptionCause);
+        } catch (PersistenceException e) {
+            Throwable eCause = e.getCause();
+            while ((eCause != null) && !(eCause instanceof DataException))
+                eCause = eCause.getCause();
+            if (eCause != null) {
+                Throwable exceptionCause;
+                exceptionCause = new Throwable("nazwa '" + entity.getProvince() + "' jest za długa");
+                throw new DataTooLongViolationException("Błąd bazy danych", exceptionCause);
+            }
         }
     }
 

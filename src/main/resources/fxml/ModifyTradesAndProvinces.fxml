@@ -92,7 +92,7 @@
                                                       <Insets />
                                                    </VBox.margin>
                                                 </Label>
-                                                <TextField fx:id="textFieldAddTrade">
+                                                <TextField fx:id="textFieldAddTrade" onKeyPressed="#textFieldAddTrade_onKeyPressed">
                                                    <VBox.margin>
                                                       <Insets bottom="15.0" />
                                                    </VBox.margin>
@@ -114,7 +114,7 @@
                               </VBox>
                               <HBox alignment="CENTER">
                                  <children>
-                                    <Button fx:id="buttonAddTrade" mnemonicParsing="false" onAction="#buttonAddTrade_onAction" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0); -fx-background-color: #df8f4e; -fx-background-radius: 10;" text="Dodaj">
+                                    <Button mnemonicParsing="false" onAction="#buttonAddTrade_onAction" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0); -fx-background-color: #df8f4e; -fx-background-radius: 10;" text="Dodaj">
                                        <font>
                                           <Font name="System Bold" size="14.0" />
                                        </font>
@@ -166,7 +166,7 @@
                                                       <Insets />
                                                    </VBox.margin>
                                                 </Label>
-                                                <TextField fx:id="textFieldModifyTrade">
+                                                <TextField fx:id="textFieldModifyTrade" onKeyPressed="#textFieldModifyTrade_onKeyPressed">
                                                    <VBox.margin>
                                                       <Insets bottom="15.0" />
                                                    </VBox.margin>
@@ -188,7 +188,7 @@
                               </VBox>
                               <HBox alignment="CENTER">
                                  <children>
-                                    <Button fx:id="buttonModifyTrade" mnemonicParsing="false" onAction="#buttonModifyTrade_onAction" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0); -fx-background-color: #df8f4e; -fx-background-radius: 10;" text="Modyfikuj">
+                                    <Button mnemonicParsing="false" onAction="#buttonModifyTrade_onAction" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0); -fx-background-color: #df8f4e; -fx-background-radius: 10;" text="Modyfikuj">
                                        <font>
                                           <Font name="System Bold" size="14.0" />
                                        </font>
@@ -230,10 +230,13 @@
                                        <children>
                                           <VBox prefHeight="52.0" prefWidth="340.0" HBox.hgrow="SOMETIMES">
                                              <children>
-                                                <TextArea fx:id="textAreaTradeDialog" minHeight="60.0" prefHeight="100.0" prefWidth="349.0">
+                                                <TextArea fx:id="textAreaTradeDialog" editable="false" minHeight="60.0" prefHeight="100.0" prefWidth="349.0" styleClass="text-area" wrapText="true">
                                                    <VBox.margin>
                                                       <Insets bottom="15.0" />
                                                    </VBox.margin>
+                                                   <cursor>
+                                                      <Cursor fx:constant="DEFAULT" />
+                                                   </cursor>
                                                 </TextArea>
                                              </children>
                                              <HBox.margin>
@@ -276,7 +279,7 @@
                         </TableView>
                         <HBox alignment="TOP_CENTER" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #545469;" VBox.vgrow="SOMETIMES">
                            <children>
-                              <Button fx:id="buttonDeleteTrade" minHeight="25.0" minWidth="80.0" mnemonicParsing="false" onAction="#buttonDeleteTrade_onAction" prefHeight="25.0" prefWidth="80.0" style="-fx-background-color: #7b604a; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);" text="Usuń" textFill="WHITE">
+                              <Button minHeight="25.0" minWidth="80.0" mnemonicParsing="false" onAction="#buttonDeleteTrade_onAction" prefHeight="25.0" prefWidth="80.0" style="-fx-background-color: #7b604a; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);" text="Usuń" textFill="WHITE">
                                  <HBox.margin>
                                     <Insets top="13.0" />
                                  </HBox.margin>
@@ -321,7 +324,7 @@
                         </TableView>
                         <HBox alignment="TOP_CENTER" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #545469;" VBox.vgrow="SOMETIMES">
                            <children>
-                              <Button fx:id="buttonDeleteProvince" minHeight="25.0" minWidth="80.0" mnemonicParsing="false" onAction="#buttonDeleteProvince_onAction" prefHeight="25.0" prefWidth="80.0" style="-fx-background-color: #7b604a; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);" text="Usuń" textFill="WHITE">
+                              <Button minHeight="25.0" minWidth="80.0" mnemonicParsing="false" onAction="#buttonDeleteProvince_onAction" prefHeight="25.0" prefWidth="80.0" style="-fx-background-color: #7b604a; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);" text="Usuń" textFill="WHITE">
                                  <HBox.margin>
                                     <Insets top="13.0" />
                                  </HBox.margin>
@@ -383,7 +386,7 @@
                                                       <Insets />
                                                    </VBox.margin>
                                                 </Label>
-                                                <TextField fx:id="textFieldAddProvince">
+                                                <TextField fx:id="textFieldAddProvince" onKeyPressed="#textFieldAddProvince_onKeyPressed">
                                                    <VBox.margin>
                                                       <Insets bottom="15.0" />
                                                    </VBox.margin>
@@ -405,7 +408,7 @@
                               </VBox>
                               <HBox alignment="CENTER">
                                  <children>
-                                    <Button fx:id="buttonAddProvince" mnemonicParsing="false" onAction="#buttonAddProvince_onAction" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0); -fx-background-color: #df8f4e; -fx-background-radius: 10;" text="Dodaj">
+                                    <Button mnemonicParsing="false" onAction="#buttonAddProvince_onAction" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0); -fx-background-color: #df8f4e; -fx-background-radius: 10;" text="Dodaj">
                                        <font>
                                           <Font name="System Bold" size="14.0" />
                                        </font>
@@ -457,7 +460,7 @@
                                                       <Insets />
                                                    </VBox.margin>
                                                 </Label>
-                                                <TextField fx:id="textFieldModifyProvince">
+                                                <TextField fx:id="textFieldModifyProvince" onKeyPressed="#textFieldModifyProvince_onKeyPressed">
                                                    <VBox.margin>
                                                       <Insets bottom="15.0" />
                                                    </VBox.margin>
@@ -479,7 +482,7 @@
                               </VBox>
                               <HBox alignment="CENTER">
                                  <children>
-                                    <Button fx:id="buttonModifyProvince" mnemonicParsing="false" onAction="#buttonModifyProvince_onAction" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0); -fx-background-color: #df8f4e; -fx-background-radius: 10;" text="Modyfikuj">
+                                    <Button mnemonicParsing="false" onAction="#buttonModifyProvince_onAction" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0); -fx-background-color: #df8f4e; -fx-background-radius: 10;" text="Modyfikuj">
                                        <font>
                                           <Font name="System Bold" size="14.0" />
                                        </font>
@@ -524,10 +527,13 @@
                                        <children>
                                           <VBox prefHeight="52.0" prefWidth="340.0" HBox.hgrow="SOMETIMES">
                                              <children>
-                                                <TextArea fx:id="textAreaProvinceDialog" minHeight="60.0" prefHeight="100.0" prefWidth="349.0">
+                                                <TextArea fx:id="textAreaProvinceDialog" editable="false" minHeight="60.0" prefHeight="100.0" prefWidth="349.0" wrapText="true">
                                                    <VBox.margin>
                                                       <Insets bottom="15.0" />
                                                    </VBox.margin>
+                                                   <cursor>
+                                                      <Cursor fx:constant="DEFAULT" />
+                                                   </cursor>
                                                 </TextArea>
                                              </children>
                                              <HBox.margin>

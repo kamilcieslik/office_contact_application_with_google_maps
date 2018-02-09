@@ -36,7 +36,7 @@ public class ViewExtendedContactDAO {
     }
 
     public List<ViewExtendedContact> searchEntities(String name, String trade, String email, String phone,
-                                            String street, String postalCode, String city, String province) {
+                                                    String street, String postalCode, String city, String province) {
         List<ViewExtendedContact> contacts = null;
         try (Session currentSession = sessionFactory.getCurrentSession()) {
             currentSession.beginTransaction();

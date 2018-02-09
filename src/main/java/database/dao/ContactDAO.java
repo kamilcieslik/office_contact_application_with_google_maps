@@ -5,8 +5,10 @@ import database.entity.Contact;
 import exception.DataTooLongViolationException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.exception.DataException;
 import org.hibernate.query.Query;
 
+import javax.persistence.PersistenceException;
 import java.util.List;
 
 public class ContactDAO implements EntityCRUD<Contact> {
@@ -32,10 +34,15 @@ public class ContactDAO implements EntityCRUD<Contact> {
             currentSession.beginTransaction();
             currentSession.saveOrUpdate(entity);
             currentSession.getTransaction().commit();
-        } catch (Throwable exc) {
-            Throwable exceptionCause;
-            exceptionCause = new Throwable("Przynajmniej jedna z głównych wartości obiektu jest za długa.");
-            throw new DataTooLongViolationException("Błąd bazy danych.", exceptionCause);
+        } catch (PersistenceException e) {
+            Throwable eCause = e.getCause();
+            while ((eCause != null) && !(eCause instanceof DataException))
+                eCause = eCause.getCause();
+            if (eCause != null) {
+                Throwable exceptionCause;
+                exceptionCause = new Throwable("co najmniej jedna z głównych wartości obiektu jest za długa");
+                throw new DataTooLongViolationException("Błąd bazy danych", exceptionCause);
+            }
         }
     }
 

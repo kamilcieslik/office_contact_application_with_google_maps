@@ -4,8 +4,8 @@ import app.Main;
 import database.entity.Province;
 import database.entity.Trade;
 import database.service.OfficeService;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import exception.DataTooLongViolationException;
+import exception.NameUniqueViolationException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -15,6 +15,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.springframework.stereotype.Controller;
 
@@ -28,20 +29,16 @@ import java.util.prefs.Preferences;
 
 @Controller
 public class ModifyTradesAndProvincesController implements Initializable {
-    private Preferences pref;
     private OfficeService officeService;
     private ObservableList<Trade> tradeObservableList = FXCollections.observableArrayList();
     private ObservableList<Province> provinceObservableList = FXCollections.observableArrayList();
-    private Trade selectedTrade = null;
-    private Province selectedProvince = null;
 
     @FXML
     private Label labelHeader, labelProvince;
     @FXML
     private TextField textFieldAddTrade, textFieldModifyTrade, textFieldAddProvince, textFieldModifyProvince;
     @FXML
-    private Button buttonAddTrade, buttonDeleteProvince, buttonAddProvince, buttonModifyProvince, buttonCancel,
-            buttonModifyTrade, buttonDeleteTrade;
+    private Button buttonCancel;
     @FXML
     private TextArea textAreaTradeDialog, textAreaProvinceDialog;
     @FXML
@@ -55,7 +52,7 @@ public class ModifyTradesAndProvincesController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        pref = Preferences.userRoot();
+        Preferences pref = Preferences.userRoot();
         labelHeader.setText(pref.get("header",
                 "Inter Art Marcin Rogal, ul. Wiktorowska 34, Wapiennik, 42-120 Miedźno, Polska"));
     }
@@ -76,12 +73,74 @@ public class ModifyTradesAndProvincesController implements Initializable {
 
     @FXML
     void buttonAddProvince_onAction() {
+        clearDialogTextAreas();
 
+        Boolean thisProvinceAlreadyExist = false;
+        String newProvinceName = textFieldAddProvince.getText();
+        if (newProvinceName.equals("")) {
+            textAreaProvinceDialog.setStyle("-fx-text-fill: red;");
+            textAreaProvinceDialog.setText("Operacja dodawania województwa nie powiodła się.\n" +
+                    "Powód: nazwa obiektu nie może być pusta.");
+        } else {
+            for (Province province : provinceObservableList)
+                if (province.getProvince().equals(newProvinceName))
+                    thisProvinceAlreadyExist = true;
+
+            if (!thisProvinceAlreadyExist)
+                try {
+                    Province newProvince = new Province(newProvinceName);
+                    officeService.saveProvince(newProvince);
+                    refreshProvinceTableView(officeService.getProvinces());
+                    textAreaProvinceDialog.setStyle("-fx-text-fill: green;");
+                    textAreaProvinceDialog.setText("Operacja dodawania województwa przebiegła pomyślnie.");
+                    clearProvinceTextFields();
+                } catch (DataTooLongViolationException | NameUniqueViolationException e) {
+                    textAreaProvinceDialog.setStyle("-fx-text-fill: red;");
+                    textAreaProvinceDialog.setText("Operacja dodawania województwa nie powiodła się.\n" +
+                            "Powód: " + e.getCause().getMessage() + ".");
+                }
+            else {
+                textAreaProvinceDialog.setStyle("-fx-text-fill: red;");
+                textAreaProvinceDialog.setText("Operacja dodawania województwa nie powiodła się.\n" +
+                        "Powód: obiekt o nazwie '" + newProvinceName + "' istnieje już w bazie danych.");
+            }
+        }
     }
 
     @FXML
     void buttonAddTrade_onAction() {
+        clearDialogTextAreas();
 
+        Boolean thisTradeAlreadyExist = false;
+        String newTradeName = textFieldAddTrade.getText();
+        if (newTradeName.equals("")) {
+            textAreaTradeDialog.setStyle("-fx-text-fill: red;");
+            textAreaTradeDialog.setText("Operacja dodawania branży nie powiodła się.\n" +
+                    "Powód: nazwa obiektu nie może być pusta.");
+        } else {
+            for (Trade trade : tradeObservableList)
+                if (trade.getTrade().equals(newTradeName))
+                    thisTradeAlreadyExist = true;
+
+            if (!thisTradeAlreadyExist)
+                try {
+                    Trade newTrade = new Trade(newTradeName);
+                    officeService.saveTrade(newTrade);
+                    refreshTradeTableView(officeService.getTrades());
+                    textAreaTradeDialog.setStyle("-fx-text-fill: green;");
+                    textAreaTradeDialog.setText("Operacja dodawania branży przebiegła pomyślnie.");
+                    clearTradeTextFields();
+                } catch (DataTooLongViolationException | NameUniqueViolationException e) {
+                    textAreaTradeDialog.setStyle("-fx-text-fill: red;");
+                    textAreaTradeDialog.setText("Operacja dodawania branży nie powiodła się.\n" +
+                            "Powód: " + e.getCause().getMessage() + ".");
+                }
+            else {
+                textAreaTradeDialog.setStyle("-fx-text-fill: red;");
+                textAreaTradeDialog.setText("Operacja dodawania branży nie powiodła się.\n" +
+                        "Powód: obiekt o nazwie '" + newTradeName + "' istnieje już w bazie danych.");
+            }
+        }
     }
 
     @FXML
@@ -108,32 +167,200 @@ public class ModifyTradesAndProvincesController implements Initializable {
 
     @FXML
     void buttonDeleteProvince_onAction() {
+        clearDialogTextAreas();
 
+        if (tableViewProvinces.getSelectionModel().getSelectedItem() != null) {
+            ButtonType confirmButton = new ButtonType("Potwierdź", ButtonBar.ButtonData.OK_DONE);
+            ButtonType cancelButton = new ButtonType("Anuluj", ButtonBar.ButtonData.CANCEL_CLOSE);
+            showConfirmMessageBox(Alert.AlertType.CONFIRMATION,
+                    "Usunięcie województwa spowoduje aktualizację listy kontaktów.",
+                    confirmButton, cancelButton).showAndWait()
+                    .ifPresent(rs -> {
+                        if (rs.getText().equals("Potwierdź")) {
+                            officeService.deleteProvince(tableViewProvinces.getSelectionModel().getSelectedItem().getId());
+                            refreshProvinceTableView(officeService.getProvinces());
+                            textAreaProvinceDialog.setStyle("-fx-text-fill: #008000;");
+                            textAreaProvinceDialog.setText("Operacja usunięcia województwa przebiegła pomyślnie.");
+                            clearProvinceTextFields();
+                        }
+                    });
+        } else {
+            textAreaProvinceDialog.setStyle("-fx-text-fill: #ff0000;");
+            textAreaProvinceDialog.setText("Operacja usunięcia województwa nie powiodła się.\n" +
+                    "Powód: nie wybrano województwa.");
+        }
     }
 
     @FXML
     void buttonDeleteTrade_onAction() {
+        clearDialogTextAreas();
 
+        if (tableViewTrades.getSelectionModel().getSelectedItem() != null) {
+            ButtonType confirmButton = new ButtonType("Potwierdź", ButtonBar.ButtonData.OK_DONE);
+            ButtonType cancelButton = new ButtonType("Anuluj", ButtonBar.ButtonData.CANCEL_CLOSE);
+            showConfirmMessageBox(Alert.AlertType.CONFIRMATION,
+                    "Usunięcie branży spowoduje aktualizację listy kontaktów.",
+                    confirmButton, cancelButton).showAndWait()
+                    .ifPresent(rs -> {
+                        if (rs.getText().equals("Potwierdź")) {
+                            officeService.deleteTrade(tableViewTrades.getSelectionModel().getSelectedItem().getId());
+                            refreshTradeTableView(officeService.getTrades());
+                            textAreaTradeDialog.setStyle("-fx-text-fill: #008000;");
+                            textAreaTradeDialog.setText("Operacja usunięcia branży przebiegła pomyślnie.");
+                            clearTradeTextFields();
+                        }
+                    });
+        } else {
+            textAreaTradeDialog.setStyle("-fx-text-fill: #ff0000;");
+            textAreaTradeDialog.setText("Operacja usunięcia branży nie powiodła się.\n" +
+                    "Powód: nie wybrano branży.");
+        }
     }
 
     @FXML
     void buttonModifyProvince_onAction() {
+        clearDialogTextAreas();
 
+        if (tableViewProvinces.getSelectionModel().getSelectedItem() != null) {
+            Boolean thisProvinceNameAlreadyExist = false;
+            String modifiedProvinceName = textFieldModifyProvince.getText();
+            if (modifiedProvinceName.equals("")) {
+                textAreaProvinceDialog.setStyle("-fx-text-fill: #ff0000;");
+                textAreaProvinceDialog.setText("Operacja modyfikacji województwa nie powiodła się.\n" +
+                        "Powód: nazwa obiektu nie może być pusta.");
+            } else {
+                for (Province province : provinceObservableList)
+                    if (province.getProvince().equals(modifiedProvinceName))
+                        thisProvinceNameAlreadyExist = true;
+
+                if (!thisProvinceNameAlreadyExist) {
+                    ButtonType confirmButton = new ButtonType("Potwierdź", ButtonBar.ButtonData.OK_DONE);
+                    ButtonType cancelButton = new ButtonType("Anuluj", ButtonBar.ButtonData.CANCEL_CLOSE);
+                    showConfirmMessageBox(Alert.AlertType.CONFIRMATION,
+                            "Modyfikacja województwa spowoduje aktualizację listy kontaktów.",
+                            confirmButton, cancelButton).showAndWait()
+                            .ifPresent(rs -> {
+                                if (rs.getText().equals("Potwierdź")) {
+                                    try {
+                                        Province selectedProvince = officeService.getProvince(tableViewProvinces.getSelectionModel().getSelectedItem().getId());
+                                        selectedProvince.setProvince(textFieldModifyProvince.getText());
+                                        officeService.saveProvince(selectedProvince);
+                                        refreshProvinceTableView(officeService.getProvinces());
+                                        textAreaProvinceDialog.setStyle("-fx-text-fill: #008000;");
+                                        textAreaProvinceDialog.setText("Operacja modyfikacji województwa przebiegła pomyślnie.");
+                                    } catch (DataTooLongViolationException | NameUniqueViolationException e) {
+                                        textAreaProvinceDialog.setStyle("-fx-text-fill: #ff0000;");
+                                        textAreaProvinceDialog.setText("Operacja modyfikacji województwa nie powiodła się.\n" +
+                                                "Powód: " + e.getCause().getMessage() + ".");
+                                    }
+                                }
+                            });
+                } else {
+                    textAreaProvinceDialog.setStyle("-fx-text-fill: #ff0000;");
+                    textAreaProvinceDialog.setText("Operacja modyfikacji województwa nie powiodła się.\n" +
+                            "Powód: obiekt o nazwie '" + modifiedProvinceName + "' istnieje już w bazie danych.");
+                }
+            }
+        } else {
+            textAreaProvinceDialog.setStyle("-fx-text-fill: #ff0000;");
+            textAreaProvinceDialog.setText("Operacja modyfikacji województwa nie powiodła się.\n" +
+                    "Powód: nie wybrano województwa.");
+        }
     }
 
     @FXML
     void buttonModifyTrade_onAction() {
+        clearDialogTextAreas();
 
+        if (tableViewTrades.getSelectionModel().getSelectedItem() != null) {
+            Boolean thisTradeNameAlreadyExist = false;
+            String modifiedTradeName = textFieldModifyTrade.getText();
+            if (modifiedTradeName.equals("")) {
+                textAreaTradeDialog.setStyle("-fx-text-fill: #ff0000;");
+                textAreaTradeDialog.setText("Operacja modyfikacji branży nie powiodła się.\n" +
+                        "Powód: nazwa obiektu nie może być pusta.");
+            } else {
+                for (Trade trade : tradeObservableList)
+                    if (trade.getTrade().equals(modifiedTradeName))
+                        thisTradeNameAlreadyExist = true;
+
+                if (!thisTradeNameAlreadyExist) {
+                    ButtonType confirmButton = new ButtonType("Potwierdź", ButtonBar.ButtonData.OK_DONE);
+                    ButtonType cancelButton = new ButtonType("Anuluj", ButtonBar.ButtonData.CANCEL_CLOSE);
+                    showConfirmMessageBox(Alert.AlertType.CONFIRMATION,
+                            "Modyfikacja branży spowoduje aktualizację listy kontaktów.",
+                            confirmButton, cancelButton).showAndWait()
+                            .ifPresent(rs -> {
+                                if (rs.getText().equals("Potwierdź")) {
+                                    try {
+                                        Trade selectedTrade = officeService.getTrade(tableViewTrades.getSelectionModel().getSelectedItem().getId());
+                                        selectedTrade.setTrade(modifiedTradeName);
+                                        officeService.saveTrade(selectedTrade);
+                                        refreshTradeTableView(officeService.getTrades());
+                                        textAreaTradeDialog.setStyle("-fx-text-fill: #008000;");
+                                        textAreaTradeDialog.setText("Operacja modyfikacji branży przebiegła pomyślnie.");
+                                    } catch (DataTooLongViolationException | NameUniqueViolationException e) {
+                                        textAreaTradeDialog.setStyle("-fx-text-fill: #ff0000;");
+                                        textAreaTradeDialog.setText("Operacja modyfikacji branży nie powiodła się.\n" +
+                                                "Powód: " + e.getCause().getMessage() + ".");
+                                    }
+                                }
+                            });
+                } else {
+                    textAreaTradeDialog.setStyle("-fx-text-fill: #ff0000;");
+                    textAreaTradeDialog.setText("Operacja modyfikacji branży nie powiodła się.\n" +
+                            "Powód: obiekt o nazwie '" + modifiedTradeName + "' istnieje już w bazie danych.");
+                }
+            }
+        } else {
+            textAreaTradeDialog.setStyle("-fx-text-fill: #ff0000;");
+            textAreaTradeDialog.setText("Operacja modyfikacji branży nie powiodła się.\n" +
+                    "Powód: nie wybrano branży.");
+        }
+    }
+
+    @FXML
+    void textFieldAddTrade_onKeyPressed() {
+        clearDialogTextAreas();
+    }
+
+    @FXML
+    void textFieldModifyTrade_onKeyPressed() {
+        clearDialogTextAreas();
+    }
+
+    @FXML
+    void textFieldAddProvince_onKeyPressed() {
+        clearDialogTextAreas();
+    }
+
+    @FXML
+    void textFieldModifyProvince_onKeyPressed() {
+        clearDialogTextAreas();
     }
 
     @FXML
     void tableViewProvinces_onMouseClicked() {
-
+        clearDialogTextAreas();
+        try {
+            if (tableViewProvinces.getSelectionModel().getSelectedItem() != null) {
+                textFieldModifyProvince.setText(tableViewProvinces.getSelectionModel().getSelectedItem().getProvince());
+            }
+        } catch (NullPointerException nullExc) {
+            textFieldModifyProvince.setText("");
+        }
     }
 
     @FXML
     void tableViewTrades_onMouseClicked() {
-
+        clearDialogTextAreas();
+        try {
+            if (tableViewTrades.getSelectionModel().getSelectedItem() != null) {
+                textFieldModifyTrade.setText(tableViewTrades.getSelectionModel().getSelectedItem().getTrade());
+            }
+        } catch (NullPointerException nullExc) {
+            textFieldModifyTrade.setText("");
+        }
     }
 
     private void refreshTradeTableView(List<Trade> trades) {
@@ -158,4 +385,33 @@ public class ModifyTradesAndProvincesController implements Initializable {
         refreshProvinceTableView(officeService.getProvinces());
     }
 
+    private void clearDialogTextAreas() {
+        if (!textAreaTradeDialog.getText().equals("")) {
+            textAreaTradeDialog.setStyle("-fx-text-fill: #000000;");
+            textAreaTradeDialog.setText("");
+        }
+        if (!textAreaProvinceDialog.getText().equals("")) {
+            textAreaProvinceDialog.setStyle("-fx-text-fill: #000000;");
+            textAreaProvinceDialog.setText("");
+        }
+    }
+
+    private void clearProvinceTextFields() {
+        textFieldModifyProvince.setText("");
+        textFieldAddProvince.setText("");
+    }
+
+    private void clearTradeTextFields() {
+        textFieldModifyTrade.setText("");
+        textFieldAddTrade.setText("");
+    }
+
+    private Alert showConfirmMessageBox(Alert.AlertType alertType, String header, ButtonType confirmButton, ButtonType cancelButton) {
+        Alert alert = new Alert(alertType, "W celu potwierdzenia naciśnij przycisk.", confirmButton, cancelButton);
+        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+        stage.getIcons().add(new Image("image/icon.png"));
+        alert.setTitle("Operacja wymaga potwierdzenia");
+        alert.setHeaderText(header);
+        return alert;
+    }
 }
