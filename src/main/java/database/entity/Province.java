@@ -38,9 +38,6 @@ public class Province {
 
     @Override
     public String toString() {
-        return "Province{" +
-                "id=" + id +
-                ", province='" + province + '\'' +
-                '}';
+        return province;
     }
 }

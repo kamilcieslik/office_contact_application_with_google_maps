@@ -18,7 +18,6 @@
         <property name="hibernate.connection.CharSet">utf8</property>
         <property name="hibernate.connection.characterEncoding">utf8</property>
         <property name="hibernate.connection.useUnicode">true</property>
-        <property name="hbm2ddl.auto">update</property>
 
         <!-- c3p0 config http://www.hibernate.org/214.html -->
         <property name="connection.provider_class">org.hibernate.c3p0.internal.C3P0ConnectionProvider</property>

@@ -38,9 +38,6 @@ public class Trade {
 
     @Override
     public String toString() {
-        return "Trade{" +
-                "id=" + id +
-                ", trade='" + trade + '\'' +
-                '}';
+        return trade;
     }
 }

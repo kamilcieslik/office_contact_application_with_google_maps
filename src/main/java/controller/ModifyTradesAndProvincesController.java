@@ -78,8 +78,8 @@ public class ModifyTradesAndProvincesController implements Initializable {
         Boolean thisProvinceAlreadyExist = false;
         String newProvinceName = textFieldAddProvince.getText();
         if (newProvinceName.equals("")) {
-            textAreaProvinceDialog.setStyle("-fx-text-fill: red;");
-            textAreaProvinceDialog.setText("Operacja dodawania województwa nie powiodła się.\n" +
+            textAreaProvinceDialog.setStyle("-fx-text-fill: #ff0000;");
+            textAreaProvinceDialog.setText("Operacja dodania województwa nie powiodła się.\n" +
                     "Powód: nazwa obiektu nie może być pusta.");
         } else {
             for (Province province : provinceObservableList)
@@ -91,17 +91,17 @@ public class ModifyTradesAndProvincesController implements Initializable {
                     Province newProvince = new Province(newProvinceName);
                     officeService.saveProvince(newProvince);
                     refreshProvinceTableView(officeService.getProvinces());
-                    textAreaProvinceDialog.setStyle("-fx-text-fill: green;");
-                    textAreaProvinceDialog.setText("Operacja dodawania województwa przebiegła pomyślnie.");
+                    textAreaProvinceDialog.setStyle("-fx-text-fill: #008000;");
+                    textAreaProvinceDialog.setText("Operacja dodania województwa przebiegła pomyślnie.");
                     clearProvinceTextFields();
                 } catch (DataTooLongViolationException | NameUniqueViolationException e) {
-                    textAreaProvinceDialog.setStyle("-fx-text-fill: red;");
-                    textAreaProvinceDialog.setText("Operacja dodawania województwa nie powiodła się.\n" +
+                    textAreaProvinceDialog.setStyle("-fx-text-fill: #ff0000;");
+                    textAreaProvinceDialog.setText("Operacja dodania województwa nie powiodła się.\n" +
                             "Powód: " + e.getCause().getMessage() + ".");
                 }
             else {
-                textAreaProvinceDialog.setStyle("-fx-text-fill: red;");
-                textAreaProvinceDialog.setText("Operacja dodawania województwa nie powiodła się.\n" +
+                textAreaProvinceDialog.setStyle("-fx-text-fill: #ff0000;");
+                textAreaProvinceDialog.setText("Operacja dodania województwa nie powiodła się.\n" +
                         "Powód: obiekt o nazwie '" + newProvinceName + "' istnieje już w bazie danych.");
             }
         }
@@ -114,8 +114,8 @@ public class ModifyTradesAndProvincesController implements Initializable {
         Boolean thisTradeAlreadyExist = false;
         String newTradeName = textFieldAddTrade.getText();
         if (newTradeName.equals("")) {
-            textAreaTradeDialog.setStyle("-fx-text-fill: red;");
-            textAreaTradeDialog.setText("Operacja dodawania branży nie powiodła się.\n" +
+            textAreaTradeDialog.setStyle("-fx-text-fill: #ff0000;");
+            textAreaTradeDialog.setText("Operacja dodania branży nie powiodła się.\n" +
                     "Powód: nazwa obiektu nie może być pusta.");
         } else {
             for (Trade trade : tradeObservableList)
@@ -127,17 +127,17 @@ public class ModifyTradesAndProvincesController implements Initializable {
                     Trade newTrade = new Trade(newTradeName);
                     officeService.saveTrade(newTrade);
                     refreshTradeTableView(officeService.getTrades());
-                    textAreaTradeDialog.setStyle("-fx-text-fill: green;");
-                    textAreaTradeDialog.setText("Operacja dodawania branży przebiegła pomyślnie.");
+                    textAreaTradeDialog.setStyle("-fx-text-fill: #008000;");
+                    textAreaTradeDialog.setText("Operacja dodania branży przebiegła pomyślnie.");
                     clearTradeTextFields();
                 } catch (DataTooLongViolationException | NameUniqueViolationException e) {
-                    textAreaTradeDialog.setStyle("-fx-text-fill: red;");
-                    textAreaTradeDialog.setText("Operacja dodawania branży nie powiodła się.\n" +
+                    textAreaTradeDialog.setStyle("-fx-text-fill: #ff0000;");
+                    textAreaTradeDialog.setText("Operacja dodania branży nie powiodła się.\n" +
                             "Powód: " + e.getCause().getMessage() + ".");
                 }
             else {
-                textAreaTradeDialog.setStyle("-fx-text-fill: red;");
-                textAreaTradeDialog.setText("Operacja dodawania branży nie powiodła się.\n" +
+                textAreaTradeDialog.setStyle("-fx-text-fill: #ff0000;");
+                textAreaTradeDialog.setText("Operacja dodania branży nie powiodła się.\n" +
                         "Powód: obiekt o nazwie '" + newTradeName + "' istnieje już w bazie danych.");
             }
         }

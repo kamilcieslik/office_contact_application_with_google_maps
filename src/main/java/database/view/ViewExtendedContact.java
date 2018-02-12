@@ -11,8 +11,11 @@ public class ViewExtendedContact {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private int id;
+    @Column(name = "contact_id")
+    private int contactId;
+
+    @Column(name = "address_id")
+    private Integer addressId;
 
     @Column(name = "name")
     private String name;
@@ -47,8 +50,12 @@ public class ViewExtendedContact {
     public ViewExtendedContact() {
     }
 
-    public int getId() {
-        return id;
+    public int getContactId() {
+        return contactId;
+    }
+
+    public Integer getAddressId() {
+        return addressId;
     }
 
     public String getName() {
@@ -94,7 +101,8 @@ public class ViewExtendedContact {
     @Override
     public String toString() {
         return "ViewExtendedContact{" +
-                "id=" + id +
+                "contactId=" + contactId +
+                ", addressId=" + addressId +
                 ", name='" + name + '\'' +
                 ", trade='" + trade + '\'' +
                 ", email='" + email + '\'' +

@@ -22,8 +22,7 @@ public class Address {
     @Column(name = "postal_code")
     private String postalCode;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @LazyToOne(LazyToOneOption.NO_PROXY)
+    @OneToOne()
     @JoinColumn(name = "province_id")
     private Province province;
 
@@ -35,6 +34,12 @@ public class Address {
         this.city = city;
         this.postalCode = postalCode;
         this.province = province;
+    }
+
+    public Address(String street, String city, String postalCode) {
+        this.street = street;
+        this.city = city;
+        this.postalCode = postalCode;
     }
 
     public int getId() {

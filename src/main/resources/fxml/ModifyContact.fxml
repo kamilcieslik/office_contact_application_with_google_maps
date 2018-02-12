@@ -104,7 +104,7 @@
                                                             <Insets top="18.0" />
                                                          </HBox.margin>
                                                          <children>
-                                                            <TextField fx:id="textFieldName" onKeyReleased="#textFieldName_onAction" prefHeight="25.0" prefWidth="257.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 20, 0, 0, 0); -fx-background-radius: 20;" />
+                                                            <TextField fx:id="textFieldName" onKeyReleased="#textFieldName_onKeyReleased" prefHeight="25.0" prefWidth="257.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 20, 0, 0, 0); -fx-background-radius: 20;" />
                                                             <Label fx:id="labelName" text="Podaj nazwę." textFill="#0083f9" VBox.vgrow="SOMETIMES">
                                                                <VBox.margin>
                                                                   <Insets top="5.0" />
@@ -127,7 +127,7 @@
                                                             <Insets top="8.0" />
                                                          </HBox.margin>
                                                          <children>
-                                                            <ComboBox fx:id="comboBoxTrade" onMouseReleased="#comboBoxTrade_onMouseReleased" prefWidth="257.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 20, 0, 0, 0); -fx-background-radius: 20;" />
+                                                            <ComboBox fx:id="comboBoxTrade" onAction="#comboBoxTrade_onAction" prefWidth="257.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 20, 0, 0, 0); -fx-background-radius: 20;" />
                                                             <Label fx:id="labelTrade" text="Wybierz branżę." textFill="#0083f9">
                                                                <VBox.margin>
                                                                   <Insets top="5.0" />
@@ -150,7 +150,7 @@
                                                             <Insets top="8.0" />
                                                          </HBox.margin>
                                                          <children>
-                                                            <TextField fx:id="textFieldEmail" onKeyReleased="#textFieldEmail_onAction" prefHeight="25.0" prefWidth="257.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 20, 0, 0, 0); -fx-background-radius: 20;" />
+                                                            <TextField fx:id="textFieldEmail" onKeyReleased="#textFieldEmail_onKeyReleased" prefHeight="25.0" prefWidth="257.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 20, 0, 0, 0); -fx-background-radius: 20;" />
                                                             <Label fx:id="labelEmail" text="Podaj adres e-mail." textFill="#0083f9">
                                                                <VBox.margin>
                                                                   <Insets top="5.0" />
@@ -173,7 +173,7 @@
                                                             <Insets top="8.0" />
                                                          </HBox.margin>
                                                          <children>
-                                                            <TextField fx:id="textFieldPhoneNumber" onKeyReleased="#textFieldPhoneNumber_onAction" prefHeight="25.0" prefWidth="257.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 20, 0, 0, 0); -fx-background-radius: 20;" />
+                                                            <TextField fx:id="textFieldPhoneNumber" onKeyReleased="#textFieldPhoneNumber_onKeyReleased" prefHeight="25.0" prefWidth="257.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 20, 0, 0, 0); -fx-background-radius: 20;" />
                                                             <Label fx:id="labelPhone" text="Podaj nr telefonu." textFill="#0083f9">
                                                                <VBox.margin>
                                                                   <Insets top="5.0" />
@@ -196,7 +196,7 @@
                                                             <Insets top="12.0" />
                                                          </HBox.margin>
                                                          <children>
-                                                            <TextField fx:id="textFieldStreet" onKeyReleased="#textFieldStreet_onAction" prefHeight="25.0" prefWidth="257.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 20, 0, 0, 0); -fx-background-radius: 20;" />
+                                                            <TextField fx:id="textFieldStreet" onKeyReleased="#textFieldStreet_onKeyReleased" prefHeight="25.0" prefWidth="257.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 20, 0, 0, 0); -fx-background-radius: 20;" />
                                                             <Label fx:id="labelStreet" text="Podaj ulicę i nr domu/mieszkania." textFill="#0083f9">
                                                                <VBox.margin>
                                                                   <Insets top="5.0" />
@@ -219,7 +219,7 @@
                                                             <Insets top="8.0" />
                                                          </HBox.margin>
                                                          <children>
-                                                            <TextField fx:id="textFieldPostalCode" onKeyReleased="#textFieldPostalCode_onAction" prefHeight="25.0" prefWidth="257.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 20, 0, 0, 0); -fx-background-radius: 20;" />
+                                                            <TextField fx:id="textFieldPostalCode" onKeyReleased="#textFieldPostalCode_onKeyReleased" prefHeight="25.0" prefWidth="257.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 20, 0, 0, 0); -fx-background-radius: 20;" />
                                                             <Label fx:id="labelPostalCode" text="Podaj kod pocztowy." textFill="#0083f9">
                                                                <VBox.margin>
                                                                   <Insets top="5.0" />
@@ -242,7 +242,7 @@
                                                             <Insets top="8.0" />
                                                          </HBox.margin>
                                                          <children>
-                                                            <TextField fx:id="textFieldCity" onKeyReleased="#textFieldCity_onAction" prefHeight="25.0" prefWidth="257.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 20, 0, 0, 0); -fx-background-radius: 20;" />
+                                                            <TextField fx:id="textFieldCity" onKeyReleased="#textFieldCity_onKeyReleased" prefHeight="25.0" prefWidth="257.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 20, 0, 0, 0); -fx-background-radius: 20;" />
                                                             <Label fx:id="labelCity" text="Podaj miasto." textFill="#0083f9">
                                                                <VBox.margin>
                                                                   <Insets top="5.0" />
@@ -265,7 +265,7 @@
                                                             <Insets top="8.0" />
                                                          </HBox.margin>
                                                          <children>
-                                                            <ComboBox fx:id="comboBoxProvince" onMouseReleased="#comboBoxProvince_onMouseReleased" prefWidth="257.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 20, 0, 0, 0); -fx-background-radius: 20;" />
+                                                            <ComboBox fx:id="comboBoxProvince" onAction="#comboBoxProvince_onAction" prefWidth="257.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 20, 0, 0, 0); -fx-background-radius: 20;" />
                                                             <Label fx:id="labelProvince" text="Wybierz województwo." textFill="#0083f9">
                                                                <VBox.margin>
                                                                   <Insets top="5.0" />

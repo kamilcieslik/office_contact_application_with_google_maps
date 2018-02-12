@@ -25,18 +25,43 @@ public class Contact {
     @Column(name = "comments")
     private String comments;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH,
-            CascadeType.MERGE,
-            CascadeType.PERSIST,
-            CascadeType.REFRESH})
+    @OneToOne()
     @JoinColumn(name = "trade_id")
     private Trade trade;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")
     private Address address;
 
     public Contact() {
+    }
+
+    public Contact(String name, String phone, String email) {
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+    }
+
+    public Contact(String name, String phone, String email, Trade trade) {
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+        this.trade = trade;
+    }
+
+    public Contact(String name, String phone, String email, Address address) {
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+        this.address = address;
+    }
+
+    public Contact(String name, String phone, String email, Trade trade, Address address) {
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+        this.trade = trade;
+        this.address = address;
     }
 
     public Contact(String name, String phone, String email, String description, String comments, Trade trade, Address address) {

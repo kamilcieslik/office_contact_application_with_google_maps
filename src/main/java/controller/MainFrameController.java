@@ -126,7 +126,10 @@ public class MainFrameController implements Initializable {
                     confirmButton, cancelButton).showAndWait()
                     .ifPresent(rs -> {
                         if (rs.getText().equals("Potwierdź")) {
-                            officeService.deleteContact(tableViewContacts.getSelectionModel().getSelectedItem().getId());
+                            ViewExtendedContact deletedContact = tableViewContacts.getSelectionModel().getSelectedItem();
+                            if (deletedContact.getAddressId() != null)
+                                officeService.deleteAddress(deletedContact.getAddressId());
+                            officeService.deleteContact(deletedContact.getContactId());
                             refreshTableView(officeService.getViewExtendedContacts());
                             prepareContactComponents(false);
                             setDefaultDetailsInformation();
@@ -149,7 +152,7 @@ public class MainFrameController implements Initializable {
 
         if (sceneWasLoadedSuccessfully) {
             ModifyContactController display = loader.getController();
-            display.setFrameObjects(officeService, tableViewContacts.getSelectionModel().getSelectedItem());
+            display.setFrameObjects(officeService, officeService.getContact(tableViewContacts.getSelectionModel().getSelectedItem().getContactId()));
             Parent parent = loader.getRoot();
             Stage stage = Main.getMainStage();
             Stage currentStage = (Stage) buttonSaveChanges.getScene().getWindow();
@@ -164,7 +167,7 @@ public class MainFrameController implements Initializable {
         if (contact != null) {
             try {
                 Integer selectedContactPosition = tableViewContacts.getSelectionModel().getSelectedIndex();
-                Contact selectedContact = officeService.getContact(tableViewContacts.getSelectionModel().getSelectedItem().getId());
+                Contact selectedContact = officeService.getContact(tableViewContacts.getSelectionModel().getSelectedItem().getContactId());
                 selectedContact.setDescription(textAreaDescription.getText());
                 selectedContact.setComments(textAreaComments.getText());
                 officeService.saveContact(selectedContact);
