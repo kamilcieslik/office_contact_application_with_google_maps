@@ -1,6 +1,13 @@
 package controller;
 
 import app.Main;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.maps.GeoApiContext;
+import com.google.maps.GeocodingApi;
+import com.google.maps.GeocodingApiRequest;
+import com.google.maps.errors.ApiException;
+import com.google.maps.model.GeocodingResult;
 import database.entity.Contact;
 import database.entity.Province;
 import database.entity.Trade;
@@ -23,6 +30,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -77,6 +86,8 @@ public class MainFrameController implements Initializable {
     private CheckBox checkBoxDescription, checkBoxComments;
     @FXML
     private TextArea textAreaDescription, textAreaComments;
+    @FXML
+    private WebView webViewGoogleMaps;
 
     public void setFrameObjects(OfficeService officeService) {
         this.officeService = officeService;
@@ -92,11 +103,22 @@ public class MainFrameController implements Initializable {
         prepareContactComponents(false);
         labelHeader.setText(pref.get("header",
                 "Inter Art Marcin Rogal, ul. Wiktorowska 34, Wapiennik, 42-120 Miedźno, Polska"));
+
+        //final WebEngine webEngine = new WebEngine(getClass().getResource("https://www.facebook.com/MrCiupi/").toString());
+       // webViewGoogleMaps.getEngine().load("map/map.html");
+
+
+        WebEngine engine = webViewGoogleMaps.getEngine();
+        String url = Main.class.getResource("../map.html").toExternalForm();
+        engine.load(url);
+
+
     }
 
     @FXML
     void buttonAdd_onAction() {
-        Boolean sceneWasLoadedSuccessfully = true;
+
+       /* Boolean sceneWasLoadedSuccessfully = true;
         FXMLLoader loader = new FXMLLoader();
         try {
             loader.setLocation(getClass().getResource("../fxml/AddContact.fxml"));
@@ -114,7 +136,25 @@ public class MainFrameController implements Initializable {
             Stage currentStage = (Stage) buttonSaveChanges.getScene().getWindow();
             Scene scene = new Scene(parent, currentStage.getWidth() - 16.0, currentStage.getHeight() - 42.5);
             stage.setScene(scene);
+        }*/
+
+        GeoApiContext context = new GeoApiContext.Builder().apiKey("AIzaSyBEmx5P3vl4ox4OU6nPgwTbU9k-_0Zm6Lo").build();
+        GeocodingResult[] results;
+
+        try {
+            results = GeocodingApi.geocode(context, "Polska, Częstochowa, Wypalanki 39/41").await();
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            System.out.println(gson.toJson(results[0].formattedAddress));
+            System.out.println(gson.toJson(results[0].addressComponents));
+            System.out.println(gson.toJson(results[0].geometry));
+            System.out.println(gson.toJson("LAT: "+results[0].geometry.location.lat));
+            System.out.println(gson.toJson("LNG: "+results[0].geometry.location.lng));
+        } catch (ApiException | InterruptedException | IOException e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
+
+
     }
 
     @FXML
@@ -349,12 +389,35 @@ public class MainFrameController implements Initializable {
             stage.resizableProperty().setValue(Boolean.FALSE);
             stage.setTitle("Inter Art - Nagłówek");
             stage.getIcons().add(new Image("/image/icon.png"));
-            stage.setScene(new Scene(root, 819, 244));
-            ModifyHeaderController display = loader.getController();
-            display.setCurrentHeaderText(labelHeader.getText());
+            stage.setScene(new Scene(root, 819, 236));
             stage.showAndWait();
             labelHeader.setText(pref.get("header",
                     "Inter Art Marcin Rogal, ul. Wiktorowska 34, Wapiennik, 42-120 Miedźno, Polska"));
+        }
+    }
+
+    @FXML
+    void menuItemModifyGoogleApiKey_onAction(){
+        Boolean sceneWasLoadedSuccessfully = true;
+        FXMLLoader loader = new FXMLLoader();
+        try {
+            loader.setLocation(getClass().getResource("../fxml/ModifyGoogleApiKey.fxml"));
+            loader.load();
+        } catch (IOException ioEcx) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ioEcx);
+            sceneWasLoadedSuccessfully = false;
+        }
+
+        if (sceneWasLoadedSuccessfully) {
+            Parent root = loader.getRoot();
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initStyle(StageStyle.UNDECORATED);
+            stage.resizableProperty().setValue(Boolean.FALSE);
+            stage.setTitle("Inter Art - Klucz Google Maps API");
+            stage.getIcons().add(new Image("/image/icon.png"));
+            stage.setScene(new Scene(root, 819, 270));
+            stage.showAndWait();
         }
     }
 

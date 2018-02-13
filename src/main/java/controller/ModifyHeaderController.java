@@ -20,6 +20,8 @@ public class ModifyHeaderController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         pref = Preferences.userRoot();
+        textFieldHeader.setText(pref.get("header",
+                "Inter Art Marcin Rogal, ul. Wiktorowska 34, Wapiennik, 42-120 Miedźno, Polska"));
     }
 
     @FXML
@@ -33,9 +35,5 @@ public class ModifyHeaderController implements Initializable {
         pref.put("header", textFieldHeader.getText());
         Stage stage = (Stage) textFieldHeader.getScene().getWindow();
         stage.close();
-    }
-
-    public void setCurrentHeaderText(String headerText) {
-        textFieldHeader.setText(headerText);
     }
 }
