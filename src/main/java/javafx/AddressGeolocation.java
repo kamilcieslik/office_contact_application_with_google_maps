@@ -54,7 +54,7 @@ public class AddressGeolocation {
         try {
             GeoApiContext context = new GeoApiContext.Builder().apiKey(pref.get("google_api_key", "")).build();
             GeocodingResult[] geocodingResults;
-            geocodingResults = GeocodingApi.geocode(context, fullAddress).await();
+            geocodingResults = GeocodingApi.geocode(context, fullAddress).language("pl").await();
             if (geocodingResults.length >= 1) {
                 geolocationAddressFrame(geocodingResults, address);
 

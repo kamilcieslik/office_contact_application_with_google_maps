@@ -7,6 +7,7 @@ import database.entity.Province;
 import database.entity.Trade;
 import database.exception.DataTooLongViolationException;
 import database.service.OfficeService;
+import javafx.AddressGeolocation;
 import javafx.CustomMessageBox;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -110,6 +111,8 @@ public class AddContactController implements Initializable {
                     else
                         newContact = new Contact(textFieldName.getText(), textFieldPhoneNumber.getText(),
                                 textFieldEmail.getText(), newAddress);
+                    AddressGeolocation addressGeolocation = new AddressGeolocation(newContact.getAddress(), provinceObservableList);
+                    addressGeolocation.setAddressCoordinates();
                 }
 
                 try {
