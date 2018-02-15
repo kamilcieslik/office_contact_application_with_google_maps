@@ -1,12 +1,13 @@
-package controller;
+package javafx.controller;
 
 import app.Main;
 import database.entity.Address;
 import database.entity.Contact;
 import database.entity.Province;
 import database.entity.Trade;
+import database.exception.DataTooLongViolationException;
 import database.service.OfficeService;
-import exception.DataTooLongViolationException;
+import javafx.CustomMessageBox;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -14,8 +15,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.image.Image;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.springframework.stereotype.Controller;
 
@@ -32,6 +35,7 @@ public class AddContactController implements Initializable {
     private String withoutSpacesAtStartAndAndPattern = "^\\S$|^\\S[\\s\\S]*\\S$";
     private ObservableList<Trade> tradeObservableList = FXCollections.observableArrayList();
     private ObservableList<Province> provinceObservableList = FXCollections.observableArrayList();
+    private CustomMessageBox customMessageBox;
 
     @FXML
     private Label labelHeader, labelName, labelTrade, labelEmail, labelPhone, labelStreet, labelPostalCode,
@@ -65,12 +69,14 @@ public class AddContactController implements Initializable {
         Preferences pref = Preferences.userRoot();
         labelHeader.setText(pref.get("header",
                 "Inter Art Marcin Rogal, ul. Wiktorowska 34, Wapiennik, 42-120 Miedźno, Polska"));
+        customMessageBox = new CustomMessageBox("image/icon.png");
     }
 
     @FXML
     void buttonAdd_onAction() {
         if (labelName.getText().equals("Podaj nazwę."))
-            showMessageBox(Alert.AlertType.WARNING,
+            customMessageBox.showMessageBox(Alert.AlertType.WARNING, "Ostrzeżenie",
+                    "Operacja dodania kontaktu nie powiodła się.",
                     "Powód: pole wymaganej nazwy kontaktu nie zostało uzupełnione.").showAndWait();
         else {
             if (labelName.getText().equals("")
@@ -110,13 +116,14 @@ public class AddContactController implements Initializable {
                     officeService.saveContact(newContact);
                     closeFrame();
                 } catch (DataTooLongViolationException e) {
-                    showMessageBox(Alert.AlertType.WARNING,
+                    customMessageBox.showMessageBox(Alert.AlertType.WARNING, "Ostrzeżenie",
+                            "Operacja dodania kontaktu nie powiodła się.",
                             "Powód: " + e.getCause().getMessage() + ".").showAndWait();
                 }
             } else {
-                showMessageBox(Alert.AlertType.WARNING,
-                        "Powód: co najmniej jedna wartość kontaktu ma niepoprawny format lub jest za długa.")
-                        .showAndWait();
+                customMessageBox.showMessageBox(Alert.AlertType.WARNING, "Ostrzeżenie",
+                        "Operacja dodania kontaktu nie powiodła się.",
+                        "Powód: co najmniej jedna wartość kontaktu ma niepoprawny format lub jest za długa.").showAndWait();
             }
         }
     }
@@ -242,7 +249,7 @@ public class AddContactController implements Initializable {
         Boolean sceneWasLoadedSuccessfully = true;
         FXMLLoader loader = new FXMLLoader();
         try {
-            loader.setLocation(getClass().getResource("../fxml/MainFrame.fxml"));
+            loader.setLocation(getClass().getResource("../../fxml/MainFrame.fxml"));
             loader.load();
         } catch (IOException ioEcx) {
             Logger.getLogger(MainFrameController.class.getName()).log(Level.SEVERE, null, ioEcx);
@@ -257,15 +264,5 @@ public class AddContactController implements Initializable {
             Stage currentStage = (Stage) comboBoxProvince.getScene().getWindow();
             stage.setScene(new Scene(parent, currentStage.getWidth() - 16.0, currentStage.getHeight() - 42.5));
         }
-    }
-
-    private Alert showMessageBox(Alert.AlertType alertType, String content) {
-        Alert alert = new Alert(alertType);
-        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-        stage.getIcons().add(new Image("image/icon.png"));
-        alert.setTitle("Ostrzeżenie");
-        alert.setHeaderText("Operacja dodania kontaktu nie powiodła się.");
-        alert.setContentText(content);
-        return alert;
     }
 }

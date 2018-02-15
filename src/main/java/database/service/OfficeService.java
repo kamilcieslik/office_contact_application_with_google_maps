@@ -6,8 +6,8 @@ import database.entity.Contact;
 import database.entity.Province;
 import database.entity.Trade;
 import database.view.ViewExtendedContact;
-import exception.DataTooLongViolationException;
-import exception.NameUniqueViolationException;
+import database.exception.DataTooLongViolationException;
+import database.exception.NameUniqueViolationException;
 import org.hibernate.SessionFactory;
 
 import java.util.List;

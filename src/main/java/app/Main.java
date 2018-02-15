@@ -1,6 +1,6 @@
 package app;
 
-import controller.MainFrameController;
+import javafx.controller.MainFrameController;
 import database.entity.Address;
 import database.entity.Contact;
 import database.entity.Province;
@@ -34,7 +34,7 @@ public class Main extends Application {
 
     private static void setupLog4J() {
         System.setProperty("log4j.configuration", new File(".", File.separatorChar +
-                "src/main/resources/log4j.properties").toURI().toString());
+                "src/main/resources/log4j_config/log4j.properties").toURI().toString());
     }
 
     private void initSessionFactory() {

@@ -1,19 +1,13 @@
-package controller;
+package javafx.controller;
 
 import app.Main;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.maps.GeoApiContext;
-import com.google.maps.GeocodingApi;
-import com.google.maps.GeocodingApiRequest;
-import com.google.maps.errors.ApiException;
-import com.google.maps.model.GeocodingResult;
 import database.entity.Contact;
 import database.entity.Province;
 import database.entity.Trade;
 import database.service.OfficeService;
 import database.view.ViewExtendedContact;
-import exception.DataTooLongViolationException;
+import database.exception.DataTooLongViolationException;
+import javafx.CustomMessageBox;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -60,6 +54,7 @@ public class MainFrameController implements Initializable {
     private ObservableList<String> provinceObservableList = FXCollections.observableArrayList();
     private List<Trade> trades;
     private List<Province> provinces;
+    private CustomMessageBox customMessageBox;
 
     @FXML
     private Label labelHeader, labelDetails;
@@ -103,6 +98,7 @@ public class MainFrameController implements Initializable {
         prepareContactComponents(false);
         labelHeader.setText(pref.get("header",
                 "Inter Art Marcin Rogal, ul. Wiktorowska 34, Wapiennik, 42-120 Miedźno, Polska"));
+        customMessageBox = new CustomMessageBox("image/icon.png");
 
         //final WebEngine webEngine = new WebEngine(getClass().getResource("https://www.facebook.com/MrCiupi/").toString());
         //webViewGoogleMaps.getEngine().load("map/map.html");
@@ -117,7 +113,7 @@ public class MainFrameController implements Initializable {
         Boolean sceneWasLoadedSuccessfully = true;
         FXMLLoader loader = new FXMLLoader();
         try {
-            loader.setLocation(getClass().getResource("../fxml/AddContact.fxml"));
+            loader.setLocation(getClass().getResource("../../fxml/AddContact.fxml"));
             loader.load();
         } catch (IOException ioEcx) {
             Logger.getLogger(MainFrameController.class.getName()).log(Level.SEVERE, null, ioEcx);
@@ -140,8 +136,9 @@ public class MainFrameController implements Initializable {
         if (tableViewContacts.getSelectionModel().getSelectedItem() != null) {
             ButtonType confirmButton = new ButtonType("Potwierdź", ButtonBar.ButtonData.OK_DONE);
             ButtonType cancelButton = new ButtonType("Anuluj", ButtonBar.ButtonData.CANCEL_CLOSE);
-            showConfirmMessageBox(Alert.AlertType.CONFIRMATION,
-                    confirmButton, cancelButton).showAndWait()
+            customMessageBox.showConfirmMessageBox(Alert.AlertType.CONFIRMATION, "Operacja wymaga potwierdzenia.",
+                    "Usunięcie kontaktu jest operacją nieodwracalną.",
+                    "W celu potwierdzenia naciśnij przycisk.", confirmButton, cancelButton).showAndWait()
                     .ifPresent(rs -> {
                         if (rs.getText().equals("Potwierdź")) {
                             ViewExtendedContact deletedContact = tableViewContacts.getSelectionModel().getSelectedItem();
@@ -161,7 +158,7 @@ public class MainFrameController implements Initializable {
         Boolean sceneWasLoadedSuccessfully = true;
         FXMLLoader loader = new FXMLLoader();
         try {
-            loader.setLocation(getClass().getResource("../fxml/ModifyContact.fxml"));
+            loader.setLocation(getClass().getResource("../../fxml/ModifyContact.fxml"));
             loader.load();
         } catch (IOException ioEcx) {
             Logger.getLogger(MainFrameController.class.getName()).log(Level.SEVERE, null, ioEcx);
@@ -192,7 +189,7 @@ public class MainFrameController implements Initializable {
                 refreshTableView(officeService.getViewExtendedContacts());
                 tableViewContacts.getSelectionModel().select(selectedContactPosition);
             } catch (DataTooLongViolationException e) {
-                showMessageBox(Alert.AlertType.WARNING,
+                customMessageBox.showMessageBox(Alert.AlertType.WARNING, "Ostrzeżenie",
                         "Operacja nie powiodła się.",
                         "Powód: " + e.getCause().getMessage() + ".").showAndWait();
             }
@@ -250,13 +247,13 @@ public class MainFrameController implements Initializable {
             Desktop desktop = Desktop.getDesktop();
             desktop.open(new File("inter_art_contacts_standard_data.xls"));
         } catch (IOException e) {
-            showMessageBox(Alert.AlertType.WARNING,
+            customMessageBox.showMessageBox(Alert.AlertType.WARNING, "Ostrzeżenie",
                     "Operacja utworzenia pliku nie powiodła się.",
                     "Powód: " + e.getCause().getMessage()).showAndWait();
         } catch (UnsupportedOperationException e) {
-            showMessageBox(Alert.AlertType.WARNING,
+            customMessageBox.showMessageBox(Alert.AlertType.WARNING, "Ostrzeżenie",
                     "Plik został utworzony w domyślnej lokalizacji,\nale nie można go otworzyć.",
-                    "Powód: brak wymaganej aplikacji.");
+                    "Powód: brak wymaganej aplikacji.").showAndWait();
         }
     }
 
@@ -302,13 +299,13 @@ public class MainFrameController implements Initializable {
             Desktop desktop = Desktop.getDesktop();
             desktop.open(new File("inter_art_contacts_extended_data.xls"));
         } catch (IOException e) {
-            showMessageBox(Alert.AlertType.WARNING,
+            customMessageBox.showMessageBox(Alert.AlertType.WARNING, "Ostrzeżenie",
                     "Operacja utworzenia pliku nie powiodła się.",
                     "Powód: " + e.getCause().getMessage()).showAndWait();
         } catch (UnsupportedOperationException e) {
-            showMessageBox(Alert.AlertType.WARNING,
+            customMessageBox.showMessageBox(Alert.AlertType.WARNING, "Ostrzeżenie",
                     "Plik został utworzony w domyślnej lokalizacji,\nale nie można go otworzyć.",
-                    "Powód: brak wymaganej aplikacji.");
+                    "Powód: brak wymaganej aplikacji.").showAndWait();
         }
     }
 
@@ -317,7 +314,7 @@ public class MainFrameController implements Initializable {
         Boolean sceneWasLoadedSuccessfully = true;
         FXMLLoader loader = new FXMLLoader();
         try {
-            loader.setLocation(getClass().getResource("../fxml/ModifyTradesAndProvinces.fxml"));
+            loader.setLocation(getClass().getResource("../../fxml/ModifyTradesAndProvinces.fxml"));
             loader.load();
         } catch (IOException ioEcx) {
             Logger.getLogger(MainFrameController.class.getName()).log(Level.SEVERE, null, ioEcx);
@@ -352,7 +349,7 @@ public class MainFrameController implements Initializable {
         Boolean sceneWasLoadedSuccessfully = true;
         FXMLLoader loader = new FXMLLoader();
         try {
-            loader.setLocation(getClass().getResource("../fxml/ModifyHeader.fxml"));
+            loader.setLocation(getClass().getResource("../../fxml/ModifyHeader.fxml"));
             loader.load();
         } catch (IOException ioEcx) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ioEcx);
@@ -375,11 +372,11 @@ public class MainFrameController implements Initializable {
     }
 
     @FXML
-    void menuItemModifyGoogleApiKey_onAction(){
+    void menuItemModifyGoogleApiKey_onAction() {
         Boolean sceneWasLoadedSuccessfully = true;
         FXMLLoader loader = new FXMLLoader();
         try {
-            loader.setLocation(getClass().getResource("../fxml/ModifyGoogleApiKey.fxml"));
+            loader.setLocation(getClass().getResource("../../fxml/ModifyGoogleApiKey.fxml"));
             loader.load();
         } catch (IOException ioEcx) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ioEcx);
@@ -690,24 +687,5 @@ public class MainFrameController implements Initializable {
                 textFieldStreet.getText(), textFieldPostalCode.getText(), textFieldCity.getText(),
                 comboBoxProvince.getSelectionModel().getSelectedItem(), checkBoxDescription.isSelected(),
                 checkBoxComments.isSelected()));
-    }
-
-    private Alert showMessageBox(Alert.AlertType alertType, String header, String content) {
-        Alert alert = new Alert(alertType);
-        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-        stage.getIcons().add(new Image("image/icon.png"));
-        alert.setTitle("Ostrzeżenie");
-        alert.setHeaderText(header);
-        alert.setContentText(content);
-        return alert;
-    }
-
-    private Alert showConfirmMessageBox(Alert.AlertType alertType, ButtonType confirmButton, ButtonType cancelButton) {
-        Alert alert = new Alert(alertType, "W celu potwierdzenia naciśnij przycisk.", confirmButton, cancelButton);
-        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-        stage.getIcons().add(new Image("image/icon.png"));
-        alert.setTitle("Operacja wymaga potwierdzenia");
-        alert.setHeaderText("Usunięcie kontaktu jest operacją nieodwracalną.");
-        return alert;
     }
 }

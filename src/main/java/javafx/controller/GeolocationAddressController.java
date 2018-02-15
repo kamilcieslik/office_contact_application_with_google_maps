@@ -1,4 +1,4 @@
-package controller;
+package javafx.controller;
 
 import com.google.maps.model.GeocodingResult;
 import database.entity.Address;

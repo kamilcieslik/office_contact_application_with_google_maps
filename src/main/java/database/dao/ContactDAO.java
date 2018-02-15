@@ -2,7 +2,7 @@ package database.dao;
 
 import database.EntityCRUD;
 import database.entity.Contact;
-import exception.DataTooLongViolationException;
+import database.exception.DataTooLongViolationException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.exception.DataException;

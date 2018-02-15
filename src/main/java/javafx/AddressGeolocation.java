@@ -1,11 +1,11 @@
-package geolocation;
+package javafx;
 
 import app.Main;
 import com.google.maps.GeoApiContext;
 import com.google.maps.GeocodingApi;
 import com.google.maps.errors.ApiException;
 import com.google.maps.model.GeocodingResult;
-import controller.GeolocationAddressController;
+import javafx.controller.GeolocationAddressController;
 import database.entity.Address;
 import database.entity.Province;
 import javafx.collections.ObservableList;
@@ -27,11 +27,13 @@ public class AddressGeolocation {
     private Preferences pref;
     private Address address;
     private ObservableList<Province> provinceObservableList;
+    private CustomMessageBox customMessageBox;
 
     public AddressGeolocation(Address address, ObservableList<Province> provinceObservableList) {
         pref = Preferences.userRoot();
         this.address = address;
         this.provinceObservableList = provinceObservableList;
+        customMessageBox = new CustomMessageBox("image/icon.png");
     }
 
     public void setAddressCoordinates() {
@@ -57,21 +59,25 @@ public class AddressGeolocation {
                 geolocationAddressFrame(geocodingResults, address);
 
             } else
-                showMessageBox(Alert.AlertType.WARNING,
+                customMessageBox.showMessageBox(Alert.AlertType.WARNING, "Ostrzeżenie",
+                        "Proces geokodowania nie powiódł się.",
                         "Powód: proces geolokalizacji Google Maps nie odnalazł żadnego rzeczywistego adresu" +
                                 "skojarzonego z wprowadzonymi danymi adresowymi kontaktu.").showAndWait();
         } catch (InterruptedException | IOException | ApiException | IllegalStateException e) {
             switch (e.getMessage()) {
                 case "No route to host: connect":
-                    showMessageBox(Alert.AlertType.WARNING,
+                    customMessageBox.showMessageBox(Alert.AlertType.WARNING, "Ostrzeżenie",
+                            "Proces geokodowania nie powiódł się.",
                             "Powód: brak połączenia z Internetem.").showAndWait();
                     break;
                 case "The provided API key is invalid.":
-                    showMessageBox(Alert.AlertType.WARNING,
+                    customMessageBox.showMessageBox(Alert.AlertType.WARNING, "Ostrzeżenie",
+                            "Proces geokodowania nie powiódł się.",
                             "Powód: wprowadzony klucz Google Maps API jest niepoprawny.").showAndWait();
                     break;
                 case "You have exceeded your daily request quota for this API.":
-                    showMessageBox(Alert.AlertType.WARNING,
+                    customMessageBox.showMessageBox(Alert.AlertType.WARNING, "Ostrzeżenie",
+                            "Proces geokodowania nie powiódł się.",
                             "Powód: przekroczono dzienny limit zapytań dla geolokalizacji Google Maps.").showAndWait();
                     break;
             }
@@ -102,15 +108,5 @@ public class AddressGeolocation {
             stage.setScene(new Scene(root, 819, 650));
             stage.showAndWait();
         }
-    }
-
-    private Alert showMessageBox(Alert.AlertType alertType, String content) {
-        Alert alert = new Alert(alertType);
-        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-        stage.getIcons().add(new Image("image/icon.png"));
-        alert.setTitle("Ostrzeżenie");
-        alert.setHeaderText("Proces geokodowania nie powiódł się.");
-        alert.setContentText(content);
-        return alert;
     }
 }

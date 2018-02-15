@@ -1,13 +1,14 @@
-package controller;
+package javafx.controller;
 
 import app.Main;
 import database.entity.Address;
 import database.entity.Contact;
 import database.entity.Province;
 import database.entity.Trade;
+import database.exception.DataTooLongViolationException;
 import database.service.OfficeService;
-import exception.DataTooLongViolationException;
-import geolocation.AddressGeolocation;
+import javafx.AddressGeolocation;
+import javafx.CustomMessageBox;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -19,7 +20,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.springframework.stereotype.Controller;
 
@@ -37,6 +37,7 @@ public class ModifyContactController implements Initializable {
     private String withoutSpacesAtStartAndAndPattern = "^\\S$|^\\S[\\s\\S]*\\S$";
     private ObservableList<Trade> tradeObservableList = FXCollections.observableArrayList();
     private ObservableList<Province> provinceObservableList = FXCollections.observableArrayList();
+    private CustomMessageBox customMessageBox;
 
     @FXML
     private Label labelHeader, labelName, labelTrade, labelEmail, labelPhone, labelPostalCode, labelCity, labelProvince,
@@ -73,6 +74,7 @@ public class ModifyContactController implements Initializable {
         Preferences pref = Preferences.userRoot();
         labelHeader.setText(pref.get("header",
                 "Inter Art Marcin Rogal, ul. Wiktorowska 34, Wapiennik, 42-120 Miedźno, Polska"));
+        customMessageBox = new CustomMessageBox("image/icon.png");
     }
 
     @FXML
@@ -83,7 +85,8 @@ public class ModifyContactController implements Initializable {
     @FXML
     void buttonModify_onAction() {
         if (labelName.getText().equals("Podaj nazwę."))
-            showMessageBox(Alert.AlertType.WARNING,
+            customMessageBox.showMessageBox(Alert.AlertType.WARNING, "Ostrzeżenie",
+                    "Operacja modyfikacji kontaktu nie powiodła się.",
                     "Powód: pole wymaganej nazwy kontaktu nie zostało uzupełnione.").showAndWait();
         else {
             if (labelName.getText().equals("")
@@ -163,11 +166,13 @@ public class ModifyContactController implements Initializable {
                     officeService.saveContact(modifiedContact);
                     closeFrame();
                 } catch (DataTooLongViolationException e) {
-                    showMessageBox(Alert.AlertType.WARNING,
+                    customMessageBox.showMessageBox(Alert.AlertType.WARNING, "Ostrzeżenie",
+                            "Operacja modyfikacji kontaktu nie powiodła się.",
                             "Powód: " + e.getCause().getMessage() + ".").showAndWait();
                 }
             } else {
-                showMessageBox(Alert.AlertType.WARNING,
+                customMessageBox.showMessageBox(Alert.AlertType.WARNING, "Ostrzeżenie",
+                        "Operacja modyfikacji kontaktu nie powiodła się.",
                         "Powód: co najmniej jedna wartość kontaktu ma niepoprawny format lub jest za długa.")
                         .showAndWait();
             }
@@ -223,7 +228,7 @@ public class ModifyContactController implements Initializable {
         Boolean sceneWasLoadedSuccessfully = true;
         FXMLLoader loader = new FXMLLoader();
         try {
-            loader.setLocation(getClass().getResource("../fxml/MainFrame.fxml"));
+            loader.setLocation(getClass().getResource("../../fxml/MainFrame.fxml"));
             loader.load();
         } catch (IOException ioEcx) {
             Logger.getLogger(MainFrameController.class.getName()).log(Level.SEVERE, null, ioEcx);
@@ -351,15 +356,5 @@ public class ModifyContactController implements Initializable {
                 provinceLabelTextChange();
             }
         }
-    }
-
-    private Alert showMessageBox(Alert.AlertType alertType, String content) {
-        Alert alert = new Alert(alertType);
-        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-        stage.getIcons().add(new Image("image/icon.png"));
-        alert.setTitle("Ostrzeżenie");
-        alert.setHeaderText("Operacja modyfikacji kontaktu nie powiodła się.");
-        alert.setContentText(content);
-        return alert;
     }
 }

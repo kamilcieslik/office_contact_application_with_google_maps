@@ -2,11 +2,9 @@ package database.dao;
 
 import database.entity.Address;
 import database.EntityCRUD;
-import exception.DataTooLongViolationException;
-import exception.NameUniqueViolationException;
+import database.exception.DataTooLongViolationException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.exception.ConstraintViolationException;
 import org.hibernate.exception.DataException;
 import org.hibernate.query.Query;
 

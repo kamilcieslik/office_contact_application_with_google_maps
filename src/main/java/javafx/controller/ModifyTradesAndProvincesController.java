@@ -1,11 +1,12 @@
-package controller;
+package javafx.controller;
 
 import app.Main;
 import database.entity.Province;
 import database.entity.Trade;
+import database.exception.DataTooLongViolationException;
+import database.exception.NameUniqueViolationException;
 import database.service.OfficeService;
-import exception.DataTooLongViolationException;
-import exception.NameUniqueViolationException;
+import javafx.CustomMessageBox;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -15,7 +16,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.springframework.stereotype.Controller;
 
@@ -32,6 +32,7 @@ public class ModifyTradesAndProvincesController implements Initializable {
     private OfficeService officeService;
     private ObservableList<Trade> tradeObservableList = FXCollections.observableArrayList();
     private ObservableList<Province> provinceObservableList = FXCollections.observableArrayList();
+    private CustomMessageBox customMessageBox;
 
     @FXML
     private Label labelHeader, labelProvince;
@@ -61,6 +62,7 @@ public class ModifyTradesAndProvincesController implements Initializable {
         Preferences pref = Preferences.userRoot();
         labelHeader.setText(pref.get("header",
                 "Inter Art Marcin Rogal, ul. Wiktorowska 34, Wapiennik, 42-120 Miedźno, Polska"));
+        customMessageBox = new CustomMessageBox("image/icon.png");
     }
 
     public String getTextOfProvinceLabel() {
@@ -148,7 +150,7 @@ public class ModifyTradesAndProvincesController implements Initializable {
         Boolean sceneWasLoadedSuccessfully = true;
         FXMLLoader loader = new FXMLLoader();
         try {
-            loader.setLocation(getClass().getResource("../fxml/MainFrame.fxml"));
+            loader.setLocation(getClass().getResource("../../fxml/MainFrame.fxml"));
             loader.load();
         } catch (IOException ioEcx) {
             Logger.getLogger(MainFrameController.class.getName()).log(Level.SEVERE, null, ioEcx);
@@ -172,9 +174,9 @@ public class ModifyTradesAndProvincesController implements Initializable {
         if (tableViewProvinces.getSelectionModel().getSelectedItem() != null) {
             ButtonType confirmButton = new ButtonType("Potwierdź", ButtonBar.ButtonData.OK_DONE);
             ButtonType cancelButton = new ButtonType("Anuluj", ButtonBar.ButtonData.CANCEL_CLOSE);
-            showConfirmMessageBox(Alert.AlertType.CONFIRMATION,
+            customMessageBox.showConfirmMessageBox(Alert.AlertType.CONFIRMATION, "Operacja wymaga potwierdzenia.",
                     "Usunięcie województwa spowoduje aktualizację listy kontaktów.",
-                    confirmButton, cancelButton).showAndWait()
+                    "W celu potwierdzenia naciśnij przycisk.", confirmButton, cancelButton).showAndWait()
                     .ifPresent(rs -> {
                         if (rs.getText().equals("Potwierdź")) {
                             officeService.deleteProvince(tableViewProvinces.getSelectionModel().getSelectedItem().getId());
@@ -198,9 +200,9 @@ public class ModifyTradesAndProvincesController implements Initializable {
         if (tableViewTrades.getSelectionModel().getSelectedItem() != null) {
             ButtonType confirmButton = new ButtonType("Potwierdź", ButtonBar.ButtonData.OK_DONE);
             ButtonType cancelButton = new ButtonType("Anuluj", ButtonBar.ButtonData.CANCEL_CLOSE);
-            showConfirmMessageBox(Alert.AlertType.CONFIRMATION,
+            customMessageBox.showConfirmMessageBox(Alert.AlertType.CONFIRMATION, "Operacja wymaga potwierdzenia.",
                     "Usunięcie branży spowoduje aktualizację listy kontaktów.",
-                    confirmButton, cancelButton).showAndWait()
+                    "W celu potwierdzenia naciśnij przycisk.", confirmButton, cancelButton).showAndWait()
                     .ifPresent(rs -> {
                         if (rs.getText().equals("Potwierdź")) {
                             officeService.deleteTrade(tableViewTrades.getSelectionModel().getSelectedItem().getId());
@@ -236,9 +238,9 @@ public class ModifyTradesAndProvincesController implements Initializable {
                 if (!thisProvinceNameAlreadyExist) {
                     ButtonType confirmButton = new ButtonType("Potwierdź", ButtonBar.ButtonData.OK_DONE);
                     ButtonType cancelButton = new ButtonType("Anuluj", ButtonBar.ButtonData.CANCEL_CLOSE);
-                    showConfirmMessageBox(Alert.AlertType.CONFIRMATION,
+                    customMessageBox.showConfirmMessageBox(Alert.AlertType.CONFIRMATION, "Operacja wymaga potwierdzenia.",
                             "Modyfikacja województwa spowoduje aktualizację listy kontaktów.",
-                            confirmButton, cancelButton).showAndWait()
+                            "W celu potwierdzenia naciśnij przycisk.", confirmButton, cancelButton).showAndWait()
                             .ifPresent(rs -> {
                                 if (rs.getText().equals("Potwierdź")) {
                                     try {
@@ -288,9 +290,9 @@ public class ModifyTradesAndProvincesController implements Initializable {
                 if (!thisTradeNameAlreadyExist) {
                     ButtonType confirmButton = new ButtonType("Potwierdź", ButtonBar.ButtonData.OK_DONE);
                     ButtonType cancelButton = new ButtonType("Anuluj", ButtonBar.ButtonData.CANCEL_CLOSE);
-                    showConfirmMessageBox(Alert.AlertType.CONFIRMATION,
+                    customMessageBox.showConfirmMessageBox(Alert.AlertType.CONFIRMATION, "Operacja wymaga potwierdzenia.",
                             "Modyfikacja branży spowoduje aktualizację listy kontaktów.",
-                            confirmButton, cancelButton).showAndWait()
+                            "W celu potwierdzenia naciśnij przycisk.", confirmButton, cancelButton).showAndWait()
                             .ifPresent(rs -> {
                                 if (rs.getText().equals("Potwierdź")) {
                                     try {
@@ -406,14 +408,5 @@ public class ModifyTradesAndProvincesController implements Initializable {
     private void clearTradeTextFields() {
         textFieldModifyTrade.setText("");
         textFieldAddTrade.setText("");
-    }
-
-    private Alert showConfirmMessageBox(Alert.AlertType alertType, String header, ButtonType confirmButton, ButtonType cancelButton) {
-        Alert alert = new Alert(alertType, "W celu potwierdzenia naciśnij przycisk.", confirmButton, cancelButton);
-        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-        stage.getIcons().add(new Image("image/icon.png"));
-        alert.setTitle("Operacja wymaga potwierdzenia");
-        alert.setHeaderText(header);
-        return alert;
     }
 }

@@ -2,8 +2,8 @@ package database.dao;
 
 import database.EntityCRUD;
 import database.entity.Trade;
-import exception.DataTooLongViolationException;
-import exception.NameUniqueViolationException;
+import database.exception.DataTooLongViolationException;
+import database.exception.NameUniqueViolationException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.exception.ConstraintViolationException;

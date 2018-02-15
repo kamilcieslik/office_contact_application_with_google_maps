@@ -1,4 +1,4 @@
-package controller;
+package javafx.controller;
 
 import com.google.maps.GeoApiContext;
 import com.google.maps.GeocodingApi;
