@@ -1,8 +1,5 @@
 package database.entity;
 
-import org.hibernate.annotations.LazyToOne;
-import org.hibernate.annotations.LazyToOneOption;
-
 import javax.persistence.*;
 
 @Entity
@@ -22,9 +19,15 @@ public class Address {
     @Column(name = "postal_code")
     private String postalCode;
 
-    @OneToOne()
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "province_id")
     private Province province;
+
+    @Column(name = "latitude")
+    private String latitude;
+
+    @Column(name = "longitude")
+    private String longitude;
 
     public Address() {
     }
@@ -82,6 +85,22 @@ public class Address {
         this.province = province;
     }
 
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
+
     @Override
     public String toString() {
         return "Address{" +
@@ -90,6 +109,8 @@ public class Address {
                 ", city='" + city + '\'' +
                 ", postalCode='" + postalCode + '\'' +
                 ", province=" + province +
+                ", latitude='" + latitude + '\'' +
+                ", longitude='" + longitude + '\'' +
                 '}';
     }
 }

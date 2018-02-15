@@ -7,6 +7,7 @@ import database.entity.Province;
 import database.entity.Trade;
 import database.service.OfficeService;
 import exception.DataTooLongViolationException;
+import geolocation.AddressGeolocation;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -104,13 +105,40 @@ public class ModifyContactController implements Initializable {
                 } else if ((labelStreet.getText().equals("") || labelPostalCode.getText().equals("")
                         || labelCity.getText().equals("") || labelProvince.getText().equals(""))
                         && (modifiedContact.getAddress() != null)) {
-                    modifiedContact.getAddress().setStreet(textFieldStreet.getText());
-                    modifiedContact.getAddress().setPostalCode(textFieldPostalCode.getText());
-                    modifiedContact.getAddress().setCity(textFieldCity.getText());
-                    if (labelProvince.getText().equals(""))
-                        modifiedContact.getAddress().setProvince(comboBoxProvince.getSelectionModel().getSelectedItem());
-                    else
-                        modifiedContact.getAddress().setProvince(null);
+                    Boolean noChangesInAddress = true;
+                    if (!modifiedContact.getAddress().getStreet().equals(textFieldStreet.getText())) {
+                        modifiedContact.getAddress().setStreet(textFieldStreet.getText());
+                        noChangesInAddress = false;
+                    }
+                    if (!modifiedContact.getAddress().getPostalCode().equals(textFieldPostalCode.getText())) {
+                        modifiedContact.getAddress().setPostalCode(textFieldPostalCode.getText());
+                        noChangesInAddress = false;
+                    }
+                    if (!modifiedContact.getAddress().getCity().equals(textFieldCity.getText())) {
+                        modifiedContact.getAddress().setCity(textFieldCity.getText());
+                        noChangesInAddress = false;
+                    }
+                    if (labelProvince.getText().equals("")) {
+                        if (modifiedContact.getAddress().getProvince() != null) {
+                            if (!modifiedContact.getAddress().getProvince().getProvince().equals(comboBoxProvince.getSelectionModel().getSelectedItem().getProvince())) {
+                                modifiedContact.getAddress().setProvince(comboBoxProvince.getSelectionModel().getSelectedItem());
+                                noChangesInAddress = false;
+                            }
+                        } else {
+                            modifiedContact.getAddress().setProvince(comboBoxProvince.getSelectionModel().getSelectedItem());
+                            noChangesInAddress = false;
+                        }
+                    } else {
+                        if (modifiedContact.getAddress().getProvince() != null) {
+                            modifiedContact.getAddress().setProvince(null);
+                            noChangesInAddress = false;
+                        }
+                    }
+
+                    if (!noChangesInAddress) {
+                        AddressGeolocation addressGeolocation = new AddressGeolocation(modifiedContact.getAddress(), provinceObservableList);
+                        addressGeolocation.setAddressCoordinates();
+                    }
                 } else {
                     if (modifiedContact.getAddress() != null) {
                         officeService.deleteAddress(modifiedContact.getAddress().getId());
@@ -118,8 +146,11 @@ public class ModifyContactController implements Initializable {
                     }
                 }
 
-                if (newAddress != null)
+                if (newAddress != null) {
+                    AddressGeolocation addressGeolocation = new AddressGeolocation(newAddress, provinceObservableList);
+                    addressGeolocation.setAddressCoordinates();
                     modifiedContact.setAddress(newAddress);
+                }
                 modifiedContact.setName(textFieldName.getText());
                 modifiedContact.setPhone(textFieldPhoneNumber.getText());
                 modifiedContact.setEmail(textFieldEmail.getText());

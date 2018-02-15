@@ -47,6 +47,12 @@ public class ViewExtendedContact {
     @Column(name = "comments")
     private String comments;
 
+    @Column(name = "latitude")
+    private String latitude;
+
+    @Column(name = "longitude")
+    private String longitude;
+
     public ViewExtendedContact() {
     }
 
@@ -98,6 +104,14 @@ public class ViewExtendedContact {
         return comments;
     }
 
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
     @Override
     public String toString() {
         return "ViewExtendedContact{" +
@@ -113,6 +127,8 @@ public class ViewExtendedContact {
                 ", province='" + province + '\'' +
                 ", description='" + description + '\'' +
                 ", comments='" + comments + '\'' +
+                ", latitude='" + latitude + '\'' +
+                ", longitude='" + longitude + '\'' +
                 '}';
     }
 }

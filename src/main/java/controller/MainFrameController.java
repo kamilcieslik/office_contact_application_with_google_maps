@@ -105,20 +105,16 @@ public class MainFrameController implements Initializable {
                 "Inter Art Marcin Rogal, ul. Wiktorowska 34, Wapiennik, 42-120 Miedźno, Polska"));
 
         //final WebEngine webEngine = new WebEngine(getClass().getResource("https://www.facebook.com/MrCiupi/").toString());
-       // webViewGoogleMaps.getEngine().load("map/map.html");
-
+        //webViewGoogleMaps.getEngine().load("map/map.html");
 
         WebEngine engine = webViewGoogleMaps.getEngine();
         String url = Main.class.getResource("../map.html").toExternalForm();
         engine.load(url);
-
-
     }
 
     @FXML
     void buttonAdd_onAction() {
-
-       /* Boolean sceneWasLoadedSuccessfully = true;
+        Boolean sceneWasLoadedSuccessfully = true;
         FXMLLoader loader = new FXMLLoader();
         try {
             loader.setLocation(getClass().getResource("../fxml/AddContact.fxml"));
@@ -136,25 +132,7 @@ public class MainFrameController implements Initializable {
             Stage currentStage = (Stage) buttonSaveChanges.getScene().getWindow();
             Scene scene = new Scene(parent, currentStage.getWidth() - 16.0, currentStage.getHeight() - 42.5);
             stage.setScene(scene);
-        }*/
-
-        GeoApiContext context = new GeoApiContext.Builder().apiKey("AIzaSyBEmx5P3vl4ox4OU6nPgwTbU9k-_0Zm6Lo").build();
-        GeocodingResult[] results;
-
-        try {
-            results = GeocodingApi.geocode(context, "Polska, Częstochowa, Wypalanki 39/41").await();
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            System.out.println(gson.toJson(results[0].formattedAddress));
-            System.out.println(gson.toJson(results[0].addressComponents));
-            System.out.println(gson.toJson(results[0].geometry));
-            System.out.println(gson.toJson("LAT: "+results[0].geometry.location.lat));
-            System.out.println(gson.toJson("LNG: "+results[0].geometry.location.lng));
-        } catch (ApiException | InterruptedException | IOException e) {
-            e.printStackTrace();
-            System.out.println(e.getMessage());
         }
-
-
     }
 
     @FXML
