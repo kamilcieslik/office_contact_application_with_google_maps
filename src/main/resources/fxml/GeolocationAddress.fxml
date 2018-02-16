@@ -188,44 +188,40 @@
                            </HBox>
                         </VBox>
                         <VBox>
-                           <children>
-                              <HBox alignment="CENTER" prefHeight="29.0" prefWidth="254.0">
-                                 <children>
-                                    <Label alignment="CENTER" prefHeight="17.0" prefWidth="180.0" text="Zgeokodowany adres:" textFill="WHITE">
-                                       <HBox.margin>
-                                          <Insets />
-                                       </HBox.margin>
-                                    </Label>
-                                 </children>
-                                 <VBox.margin>
-                                    <Insets top="15.0" />
-                                 </VBox.margin>
-                              </HBox>
-                           </children>
+                           <HBox alignment="CENTER" prefHeight="29.0" prefWidth="254.0">
+                              <VBox.margin>
+                                 <Insets top="15.0"/>
+                              </VBox.margin>
+                              <Label alignment="CENTER" prefHeight="17.0" prefWidth="180.0"
+                                     text="Zgeokodowany adres:" textFill="WHITE">
+                                 <HBox.margin>
+                                    <Insets/>
+                                 </HBox.margin>
+                              </Label>
+                           </HBox>
                         </VBox>
                         <HBox alignment="CENTER" style="-fx-border-color: grey;">
                            <VBox.margin>
-                              <Insets bottom="15.0" left="15.0" right="15.0" top="4.0" />
+                              <Insets bottom="15.0" left="15.0" right="15.0" top="4.0"/>
                            </VBox.margin>
-                           <children>
-                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="SOMETIMES">
-                                 <children>
-                                    <Label prefHeight="17.0" prefWidth="92.0" text="Szer. i dł. geogr.:" textFill="WHITE" />
-                                    <TextField fx:id="textFieldGeocodedAddress" editable="false" prefHeight="25.0" prefWidth="277.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 20, 0, 0, 0); -fx-background-radius: 20;">
-                                       <HBox.margin>
-                                          <Insets left="30.0" />
-                                       </HBox.margin></TextField>
-                                    <CheckBox fx:id="checkBoxGeocodedAddress" mnemonicParsing="false">
-                                       <HBox.margin>
-                                          <Insets left="30.0" />
-                                       </HBox.margin>
-                                    </CheckBox>
-                                 </children>
-                              </HBox>
-                           </children>
                            <padding>
-                              <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                              <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>
                            </padding>
+                           <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="SOMETIMES">
+                              <Label prefHeight="17.0" prefWidth="92.0" text="Szer. i dł. geogr.:" textFill="WHITE"/>
+                              <TextField fx:id="textFieldGeocodedAddress" editable="false" prefHeight="25.0"
+                                         prefWidth="277.0"
+                                         style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 20, 0, 0, 0); -fx-background-radius: 20;">
+                                 <HBox.margin>
+                                    <Insets left="30.0"/>
+                                 </HBox.margin>
+                              </TextField>
+                              <CheckBox fx:id="checkBoxGeocodedAddress" mnemonicParsing="false">
+                                 <HBox.margin>
+                                    <Insets left="30.0"/>
+                                 </HBox.margin>
+                              </CheckBox>
+                           </HBox>
                         </HBox>
                      </VBox>
                   </HBox>
