@@ -75,6 +75,13 @@ public class ModifyContactController implements Initializable {
         labelHeader.setText(pref.get("header",
                 "Inter Art Marcin Rogal, ul. Wiktorowska 34, Wapiennik, 42-120 Miedźno, Polska"));
         customMessageBox = new CustomMessageBox("image/icon.png");
+
+        textFieldName.textProperty().addListener((observable, oldValue, newValue) -> nameLabelTextChange());
+        textFieldEmail.textProperty().addListener((observable, oldValue, newValue) -> emailLabelTextChange());
+        textFieldPhoneNumber.textProperty().addListener((observable, oldValue, newValue) -> phoneNumberTextChange());
+        textFieldCity.textProperty().addListener((observable, oldValue, newValue) -> cityLabelTextChange());
+        textFieldStreet.textProperty().addListener((observable, oldValue, newValue) -> streetLabelTextChange());
+        textFieldPostalCode.textProperty().addListener((observable, oldValue, newValue) -> postalCodeLabelTextChange());
     }
 
     @FXML
@@ -194,36 +201,6 @@ public class ModifyContactController implements Initializable {
         tradeLabelTextChange();
     }
 
-    @FXML
-    void textFieldCity_onKeyReleased() {
-        cityLabelTextChange();
-    }
-
-    @FXML
-    void textFieldEmail_onKeyReleased() {
-        emailLabelTextChange();
-    }
-
-    @FXML
-    void textFieldName_onKeyReleased() {
-        nameLabelTextChange();
-    }
-
-    @FXML
-    void textFieldPhoneNumber_onKeyReleased() {
-        phoneNumberTextChange();
-    }
-
-    @FXML
-    void textFieldPostalCode_onKeyReleased() {
-        postalCodeLabelTextChange();
-    }
-
-    @FXML
-    void textFieldStreet_onKeyReleased() {
-        streetLabelTextChange();
-    }
-
     private void closeFrame() {
         Boolean sceneWasLoadedSuccessfully = true;
         FXMLLoader loader = new FXMLLoader();
@@ -330,31 +307,33 @@ public class ModifyContactController implements Initializable {
 
     private void setCurrentContactDetails() {
         textFieldName.setText(modifiedContact.getName());
-        nameLabelTextChange();
-        if (modifiedContact.getTrade() != null) {
+
+        if (modifiedContact.getTrade() != null)
             comboBoxTrade.getSelectionModel().select(modifiedContact.getTrade());
-            tradeLabelTextChange();
-        }
-        if (modifiedContact.getEmail() != null) {
+        else
+            comboBoxProvince.getSelectionModel().select(0);
+        tradeLabelTextChange();
+
+        if (modifiedContact.getEmail() != null)
             textFieldEmail.setText(modifiedContact.getEmail());
-            emailLabelTextChange();
-        }
-        if (modifiedContact.getPhone() != null) {
+        else
+            textFieldEmail.setText("");
+
+        if (modifiedContact.getPhone() != null)
             textFieldPhoneNumber.setText(modifiedContact.getPhone());
-            phoneNumberTextChange();
-        }
+        else
+            textFieldPhoneNumber.setText("");
+
         Address modifiedContactAddress = modifiedContact.getAddress();
         if (modifiedContactAddress != null) {
             textFieldStreet.setText(modifiedContactAddress.getStreet());
-            streetLabelTextChange();
             textFieldPostalCode.setText(modifiedContactAddress.getPostalCode());
-            postalCodeLabelTextChange();
             textFieldCity.setText(modifiedContactAddress.getCity());
-            cityLabelTextChange();
-            if (modifiedContactAddress.getProvince() != null) {
+            if (modifiedContactAddress.getProvince() != null)
                 comboBoxProvince.getSelectionModel().select(modifiedContactAddress.getProvince());
-                provinceLabelTextChange();
-            }
+            else
+                comboBoxProvince.getSelectionModel().select(0);
+            provinceLabelTextChange();
         }
     }
 }

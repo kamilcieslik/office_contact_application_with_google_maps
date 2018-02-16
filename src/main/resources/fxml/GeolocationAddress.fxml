@@ -13,250 +13,243 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-      prefHeight="650.0" prefWidth="819.0" style="-fx-border-color: black; -fx-border-width: 2;"
-      xmlns="http://javafx.com/javafx/8.0.151" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="javafx.controller.GeolocationAddressController">
-   <HBox alignment="CENTER" prefHeight="70.0" prefWidth="200.0"
-         style="-fx-background-color: grey; -fx-background-radius: 35; -fx-border-radius: 32; -fx-border-color: #000; -fx-border-width: 1;">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="755.0" prefWidth="819.0" style="-fx-border-color: black; -fx-border-width: 2;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafx.controller.GeolocationAddressController">
+   <HBox alignment="CENTER" prefHeight="70.0" prefWidth="200.0" style="-fx-background-color: grey; -fx-background-radius: 35; -fx-border-radius: 32; -fx-border-color: #000; -fx-border-width: 1;">
       <VBox.margin>
-         <Insets left="10.0" right="10.0" top="10.0"/>
+         <Insets left="10.0" right="10.0" top="10.0" />
       </VBox.margin>
-      <ImageView fitHeight="83.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true"
-                 style="-fx-effect: innershadow( three-pass-box , rgba(0,0,0,0.7) , 10, 0.0 , 7 , 7);">
+      <ImageView fitHeight="83.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" style="-fx-effect: innershadow( three-pass-box , rgba(0,0,0,0.7) , 10, 0.0 , 7 , 7);">
          <HBox.margin>
-            <Insets bottom="5.0" top="5.0"/>
+            <Insets bottom="5.0" top="5.0" />
          </HBox.margin>
-         <Image url="@../image/localization.png"/>
+         <Image url="@../image/localization.png" />
       </ImageView>
    </HBox>
-   <HBox alignment="CENTER" prefHeight="20.0" prefWidth="1600.0"
-         style="-fx-background-color: #000; -fx-effect: dropshadow(three-pass-box,  grey, 15, 0.5, 0, 1);">
+   <HBox alignment="CENTER" prefHeight="20.0" prefWidth="1600.0" style="-fx-background-color: #000; -fx-effect: dropshadow(three-pass-box,  grey, 15, 0.5, 0, 1);">
       <VBox.margin>
-         <Insets bottom="10.0" left="10.0" right="10.0"/>
+         <Insets bottom="10.0" left="10.0" right="10.0" />
       </VBox.margin>
       <Label text="Geolokalizacja Google Maps pozwoliła na wyznaczenie dokładniejszego adresu" textFill="WHITE">
          <font>
-            <Font name="System Bold" size="15.0"/>
+            <Font name="System Bold" size="15.0" />
          </font>
          <HBox.margin>
-            <Insets bottom="3.0" top="3.0"/>
+            <Insets bottom="3.0" top="3.0" />
          </HBox.margin>
       </Label>
    </HBox>
-   <VBox prefHeight="689.0" prefWidth="795.0"
-         style="-fx-background-color: #000; -fx-effect: dropshadow(two-pass-box, #848484, 0, 0.5, 4, 5);">
+   <VBox prefHeight="689.0" prefWidth="795.0" style="-fx-background-color: #000; -fx-effect: dropshadow(two-pass-box, #848484, 0, 0.5, 4, 5);">
       <VBox.margin>
-         <Insets bottom="14.0" left="10.0" right="14.0"/>
+         <Insets bottom="14.0" left="10.0" right="14.0" />
       </VBox.margin>
       <HBox prefHeight="538.0" prefWidth="791.0" VBox.vgrow="ALWAYS">
          <VBox.margin>
-            <Insets/>
+            <Insets />
          </VBox.margin>
-         <VBox style="-fx-background-color: #39393c; -fx-effect: innershadow( three-pass-box , rgba(0,0,0,0.7) , 15, 0.0 , 0 , 2 );"
-               HBox.hgrow="SOMETIMES">
+         <VBox style="-fx-background-color: #39393c; -fx-effect: innershadow( three-pass-box , rgba(0,0,0,0.7) , 15, 0.0 , 0 , 2 );" HBox.hgrow="SOMETIMES">
             <HBox.margin>
-               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
             </HBox.margin>
             <HBox alignment="CENTER" VBox.vgrow="ALWAYS">
-               <ImageView fitHeight="50.0" fitWidth="50.0"
-                          onMouseClicked="#imageViewPrevious_onMouseClicked" pickOnBounds="true"
-                          preserveRatio="true"
-                          style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 5, 0, 4, 3);">
+               <ImageView fitHeight="50.0" fitWidth="50.0" onMouseClicked="#imageViewPrevious_onMouseClicked" pickOnBounds="true" preserveRatio="true" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 5, 0, 4, 3);">
                   <cursor>
-                     <Cursor fx:constant="HAND"/>
+                     <Cursor fx:constant="HAND" />
                   </cursor>
                   <HBox.margin>
-                     <Insets left="8.0" right="8.0"/>
+                     <Insets left="8.0" right="8.0" />
                   </HBox.margin>
-                  <Image url="@../image/arrow.png"/>
+                  <Image url="@../image/arrow.png" />
                </ImageView>
-               <VBox alignment="CENTER" prefHeight="372.0" prefWidth="715.0"
-                     style="-fx-border-color: #000; -fx-background-color: #2A2A2A; -fx-effect: innershadow( three-pass-box , rgba(0,0,0,0.7) , 15, 0.0 , 0 , 2 );">
+               <VBox alignment="CENTER" prefHeight="372.0" prefWidth="715.0" style="-fx-border-color: #000; -fx-background-color: #2A2A2A; -fx-effect: innershadow( three-pass-box , rgba(0,0,0,0.7) , 15, 0.0 , 0 , 2 );">
                   <HBox.margin>
-                     <Insets bottom="40.0" top="40.0"/>
+                     <Insets bottom="40.0" top="40.0" />
                   </HBox.margin>
-                  <Label fx:id="labelNumberOfAddresses"
-                         style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 5, 0, 4, 6);"
-                         text="Ilość znalezionych adresów: 1" textFill="WHITE">
+                  <Label fx:id="labelNumberOfAddresses" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 5, 0, 4, 6);" text="Ilość znalezionych adresów: 1" textFill="WHITE">
                      <font>
-                        <Font name="System Bold" size="15.0"/>
+                        <Font name="System Bold" size="15.0" />
                      </font>
                      <VBox.margin>
-                        <Insets top="15.0"/>
+                        <Insets top="15.0" />
                      </VBox.margin>
                   </Label>
-                  <HBox alignment="CENTER" maxHeight="0.0" prefHeight="294.0" prefWidth="709.0"
-                        VBox.vgrow="ALWAYS">
+                  <HBox alignment="CENTER" maxHeight="0.0" prefHeight="294.0" prefWidth="709.0" VBox.vgrow="ALWAYS">
                      <VBox.margin>
-                        <Insets top="35.0"/>
+                        <Insets top="35.0" />
                      </VBox.margin>
-                     <VBox maxHeight="10.0" prefHeight="28.0" prefWidth="568.0"
-                           style="-fx-border-color: #000; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 5, 0, 4, 6);">
+                     <VBox maxHeight="10.0" prefHeight="28.0" prefWidth="568.0" style="-fx-border-color: #000; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 5, 0, 4, 6);">
                         <VBox fx:id="vBoxProvince">
-                           <Region maxHeight="15.0" minHeight="15.0" prefHeight="200.0"
-                                   prefWidth="200.0"/>
+                           <Region maxHeight="15.0" minHeight="15.0" prefHeight="200.0" prefWidth="200.0" />
                            <HBox alignment="CENTER" prefHeight="29.0" prefWidth="254.0">
-                              <Label prefHeight="17.0" prefWidth="200.0" text="Województwo:"
-                                     textFill="WHITE">
+                              <Label prefHeight="17.0" prefWidth="200.0" text="Województwo:" textFill="WHITE">
                                  <HBox.margin>
-                                    <Insets/>
+                                    <Insets />
                                  </HBox.margin>
                               </Label>
-                              <TextField fx:id="textFieldProvince" editable="false"
-                                         prefHeight="25.0" prefWidth="257.0"
-                                         style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 20, 0, 0, 0); -fx-background-radius: 20;">
+                              <TextField fx:id="textFieldProvince" editable="false" prefHeight="25.0" prefWidth="257.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 20, 0, 0, 0); -fx-background-radius: 20;">
                                  <HBox.margin>
-                                    <Insets right="43.0"/>
+                                    <Insets right="43.0" />
                                  </HBox.margin>
                               </TextField>
                               <CheckBox fx:id="checkBoxProvince" mnemonicParsing="false">
                                  <HBox.margin>
-                                    <Insets left="20.0"/>
+                                    <Insets left="20.0" />
                                  </HBox.margin>
                               </CheckBox>
                            </HBox>
                         </VBox>
                         <VBox fx:id="vBoxCounty">
-                           <Region maxHeight="15.0" minHeight="15.0" prefHeight="200.0"
-                                   prefWidth="200.0"/>
+                           <Region maxHeight="15.0" minHeight="15.0" prefHeight="200.0" prefWidth="200.0" />
                            <HBox alignment="CENTER" prefHeight="29.0" prefWidth="254.0">
-                              <Label prefHeight="17.0" prefWidth="200.0" text="Powiat:"
-                                     textFill="WHITE">
+                              <Label prefHeight="17.0" prefWidth="200.0" text="Powiat:" textFill="WHITE">
                                  <HBox.margin>
-                                    <Insets/>
+                                    <Insets />
                                  </HBox.margin>
                               </Label>
-                              <TextField fx:id="textFieldCounty" editable="false"
-                                         prefHeight="25.0" prefWidth="257.0"
-                                         style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 20, 0, 0, 0); -fx-background-radius: 20;">
+                              <TextField fx:id="textFieldCounty" editable="false" prefHeight="25.0" prefWidth="257.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 20, 0, 0, 0); -fx-background-radius: 20;">
                                  <HBox.margin>
-                                    <Insets right="86.0"/>
+                                    <Insets right="86.0" />
                                  </HBox.margin>
                               </TextField>
                            </HBox>
                         </VBox>
                         <VBox fx:id="vBoxPostalCode">
-                           <Region maxHeight="15.0" minHeight="15.0" prefHeight="200.0"
-                                   prefWidth="200.0"/>
+                           <Region maxHeight="15.0" minHeight="15.0" prefHeight="200.0" prefWidth="200.0" />
                            <HBox alignment="CENTER" prefHeight="29.0" prefWidth="254.0">
-                              <Label prefHeight="17.0" prefWidth="200.0" text="Kod pocztowy:"
-                                     textFill="WHITE">
+                              <Label prefHeight="17.0" prefWidth="200.0" text="Kod pocztowy:" textFill="WHITE">
                                  <HBox.margin>
-                                    <Insets/>
+                                    <Insets />
                                  </HBox.margin>
                               </Label>
-                              <TextField fx:id="textFieldPostalCode" editable="false"
-                                         prefHeight="25.0" prefWidth="257.0"
-                                         style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 20, 0, 0, 0); -fx-background-radius: 20;">
+                              <TextField fx:id="textFieldPostalCode" editable="false" prefHeight="25.0" prefWidth="257.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 20, 0, 0, 0); -fx-background-radius: 20;">
                                  <HBox.margin>
-                                    <Insets right="43.0"/>
+                                    <Insets right="43.0" />
                                  </HBox.margin>
                               </TextField>
                               <CheckBox fx:id="checkBoxPostalCode" mnemonicParsing="false">
                                  <HBox.margin>
-                                    <Insets left="20.0"/>
+                                    <Insets left="20.0" />
                                  </HBox.margin>
                               </CheckBox>
                            </HBox>
                         </VBox>
                         <VBox fx:id="vBoxCity">
-                           <Region maxHeight="15.0" minHeight="15.0" prefHeight="200.0"
-                                   prefWidth="200.0"/>
+                           <Region maxHeight="15.0" minHeight="15.0" prefHeight="200.0" prefWidth="200.0" />
                            <HBox alignment="CENTER" prefHeight="29.0" prefWidth="254.0">
-                              <Label prefHeight="17.0" prefWidth="200.0" text="Miasto:"
-                                     textFill="WHITE">
+                              <Label prefHeight="17.0" prefWidth="200.0" text="Miasto:" textFill="WHITE">
                                  <HBox.margin>
-                                    <Insets/>
+                                    <Insets />
                                  </HBox.margin>
                               </Label>
-                              <TextField fx:id="textFieldCity" editable="false"
-                                         prefHeight="25.0" prefWidth="257.0"
-                                         style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 20, 0, 0, 0); -fx-background-radius: 20;">
+                              <TextField fx:id="textFieldCity" editable="false" prefHeight="25.0" prefWidth="257.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 20, 0, 0, 0); -fx-background-radius: 20;">
                                  <HBox.margin>
-                                    <Insets right="43.0"/>
+                                    <Insets right="43.0" />
                                  </HBox.margin>
                               </TextField>
                               <CheckBox fx:id="checkBoxCity" mnemonicParsing="false">
                                  <HBox.margin>
-                                    <Insets left="20.0"/>
+                                    <Insets left="20.0" />
                                  </HBox.margin>
                               </CheckBox>
                            </HBox>
                         </VBox>
                         <VBox fx:id="vBoxDistrict">
-                           <Region maxHeight="15.0" minHeight="15.0" prefHeight="200.0"
-                                   prefWidth="200.0"/>
+                           <Region maxHeight="15.0" minHeight="15.0" prefHeight="200.0" prefWidth="200.0" />
                            <HBox alignment="CENTER" prefHeight="29.0" prefWidth="254.0">
-                              <Label prefHeight="17.0" prefWidth="200.0" text="Dzielnica:"
-                                     textFill="WHITE">
+                              <Label prefHeight="17.0" prefWidth="200.0" text="Dzielnica:" textFill="WHITE">
                                  <HBox.margin>
-                                    <Insets/>
+                                    <Insets />
                                  </HBox.margin>
                               </Label>
-                              <TextField fx:id="textFieldDistrict" editable="false"
-                                         prefHeight="25.0" prefWidth="257.0"
-                                         style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 20, 0, 0, 0); -fx-background-radius: 20;">
+                              <TextField fx:id="textFieldDistrict" editable="false" prefHeight="25.0" prefWidth="257.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 20, 0, 0, 0); -fx-background-radius: 20;">
                                  <HBox.margin>
-                                    <Insets right="86.0"/>
+                                    <Insets right="86.0" />
                                  </HBox.margin>
                               </TextField>
                            </HBox>
                         </VBox>
                         <VBox fx:id="vBoxStreet">
-                           <Region maxHeight="15.0" minHeight="15.0" prefHeight="200.0"
-                                   prefWidth="200.0"/>
+                           <Region maxHeight="15.0" minHeight="15.0" prefHeight="200.0" prefWidth="200.0" />
                            <HBox alignment="CENTER" prefHeight="29.0" prefWidth="254.0">
-                              <Label prefHeight="17.0" prefWidth="200.0"
-                                     text="Ulica i nr domu/mieszkania:" textFill="WHITE">
+                              <Label prefHeight="17.0" prefWidth="200.0" text="Ulica i nr domu/mieszkania:" textFill="WHITE">
                                  <HBox.margin>
-                                    <Insets/>
+                                    <Insets />
                                  </HBox.margin>
                               </Label>
-                              <TextField fx:id="textFieldStreet" editable="false"
-                                         prefHeight="25.0" prefWidth="257.0"
-                                         style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 20, 0, 0, 0); -fx-background-radius: 20;">
+                              <TextField fx:id="textFieldStreet" editable="false" prefHeight="25.0" prefWidth="257.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 20, 0, 0, 0); -fx-background-radius: 20;">
                                  <HBox.margin>
-                                    <Insets right="43.0"/>
+                                    <Insets right="43.0" />
                                  </HBox.margin>
                               </TextField>
                               <CheckBox fx:id="checkBoxStreet" mnemonicParsing="false">
                                  <HBox.margin>
-                                    <Insets left="20.0"/>
+                                    <Insets left="20.0" />
                                  </HBox.margin>
                               </CheckBox>
                            </HBox>
                         </VBox>
-                        <Region maxHeight="15.0" minHeight="15.0" prefHeight="200.0"
-                                prefWidth="200.0"/>
+                        <VBox>
+                           <children>
+                              <HBox alignment="CENTER" prefHeight="29.0" prefWidth="254.0">
+                                 <children>
+                                    <Label alignment="CENTER" prefHeight="17.0" prefWidth="180.0" text="Zgeokodowany adres:" textFill="WHITE">
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin>
+                                    </Label>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets top="15.0" />
+                                 </VBox.margin>
+                              </HBox>
+                           </children>
+                        </VBox>
+                        <HBox alignment="CENTER" style="-fx-border-color: grey;">
+                           <VBox.margin>
+                              <Insets bottom="15.0" left="15.0" right="15.0" top="4.0" />
+                           </VBox.margin>
+                           <children>
+                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" HBox.hgrow="SOMETIMES">
+                                 <children>
+                                    <Label prefHeight="17.0" prefWidth="92.0" text="Szer. i dł. geogr.:" textFill="WHITE" />
+                                    <TextField fx:id="textFieldGeocodedAddress" editable="false" prefHeight="25.0" prefWidth="277.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 20, 0, 0, 0); -fx-background-radius: 20;">
+                                       <HBox.margin>
+                                          <Insets left="30.0" />
+                                       </HBox.margin></TextField>
+                                    <CheckBox fx:id="checkBoxGeocodedAddress" mnemonicParsing="false">
+                                       <HBox.margin>
+                                          <Insets left="30.0" />
+                                       </HBox.margin>
+                                    </CheckBox>
+                                 </children>
+                              </HBox>
+                           </children>
+                           <padding>
+                              <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                           </padding>
+                        </HBox>
                      </VBox>
                   </HBox>
-                  <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="SOMETIMES"/>
-                  <Button mnemonicParsing="false" onAction="#buttonSave_onAction" prefHeight="30.0"
-                          prefWidth="139.0"
-                          style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0); -fx-background-color: #0083F9; -fx-background-radius: 10;"
-                          text="Zatwierdź zmiany">
+                  <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="SOMETIMES" />
+                  <Button mnemonicParsing="false" onAction="#buttonSave_onAction" prefHeight="30.0" prefWidth="139.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0); -fx-background-color: #0083F9; -fx-background-radius: 10;" text="Zatwierdź zmiany">
                      <font>
-                        <Font name="System Bold" size="14.0"/>
+                        <Font name="System Bold" size="14.0" />
                      </font>
                      <cursor>
-                        <Cursor fx:constant="HAND"/>
+                        <Cursor fx:constant="HAND" />
                      </cursor>
                      <VBox.margin>
-                        <Insets bottom="15.0"/>
+                        <Insets bottom="15.0" />
                      </VBox.margin>
                   </Button>
                </VBox>
-               <ImageView fitHeight="50.0" fitWidth="50.0" onMouseClicked="#imageViewNext_onMouseClicked"
-                          pickOnBounds="true" preserveRatio="true" rotate="180.0"
-                          style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 5, 0, 4, 3);">
+               <ImageView fitHeight="50.0" fitWidth="50.0" onMouseClicked="#imageViewNext_onMouseClicked" pickOnBounds="true" preserveRatio="true" rotate="180.0" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 5, 0, 4, 3);">
                   <cursor>
-                     <Cursor fx:constant="HAND"/>
+                     <Cursor fx:constant="HAND" />
                   </cursor>
                   <HBox.margin>
-                     <Insets left="8.0" right="8.0"/>
+                     <Insets left="8.0" right="8.0" />
                   </HBox.margin>
-                  <Image url="@../image/arrow.png"/>
+                  <Image url="@../image/arrow.png" />
                </ImageView>
             </HBox>
          </VBox>

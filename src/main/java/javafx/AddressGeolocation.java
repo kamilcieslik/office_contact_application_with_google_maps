@@ -58,24 +58,33 @@ public class AddressGeolocation {
             if (geocodingResults.length >= 1) {
                 geolocationAddressFrame(geocodingResults, address);
 
-            } else
+            } else {
+                address.setLatitude(null);
+                address.setLongitude(null);
                 customMessageBox.showMessageBox(Alert.AlertType.WARNING, "Ostrzeżenie",
                         "Proces geokodowania nie powiódł się.",
-                        "Powód: proces geolokalizacji Google Maps nie odnalazł żadnego rzeczywistego adresu" +
+                        "Powód: proces geolokalizacji Google Maps nie odnalazł żadnego rzeczywistego adresu " +
                                 "skojarzonego z wprowadzonymi danymi adresowymi kontaktu.").showAndWait();
+            }
         } catch (InterruptedException | IOException | ApiException | IllegalStateException e) {
             switch (e.getMessage()) {
                 case "No route to host: connect":
+                    address.setLatitude(null);
+                    address.setLongitude(null);
                     customMessageBox.showMessageBox(Alert.AlertType.WARNING, "Ostrzeżenie",
                             "Proces geokodowania nie powiódł się.",
                             "Powód: brak połączenia z Internetem.").showAndWait();
                     break;
                 case "The provided API key is invalid.":
+                    address.setLatitude(null);
+                    address.setLongitude(null);
                     customMessageBox.showMessageBox(Alert.AlertType.WARNING, "Ostrzeżenie",
                             "Proces geokodowania nie powiódł się.",
                             "Powód: wprowadzony klucz Google Maps API jest niepoprawny.").showAndWait();
                     break;
                 case "You have exceeded your daily request quota for this API.":
+                    address.setLatitude(null);
+                    address.setLongitude(null);
                     customMessageBox.showMessageBox(Alert.AlertType.WARNING, "Ostrzeżenie",
                             "Proces geokodowania nie powiódł się.",
                             "Powód: przekroczono dzienny limit zapytań dla geolokalizacji Google Maps.").showAndWait();
@@ -105,7 +114,7 @@ public class AddressGeolocation {
             stage.resizableProperty().setValue(Boolean.FALSE);
             stage.setTitle("Inter Art - Geolokalizacja Google Maps");
             stage.getIcons().add(new Image("/image/icon.png"));
-            stage.setScene(new Scene(root, 819, 650));
+            stage.setScene(new Scene(root, 819, 755));
             stage.showAndWait();
         }
     }

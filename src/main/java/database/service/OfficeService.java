@@ -93,9 +93,10 @@ public class OfficeService {
 
     public List<ViewExtendedContact> searchContacts(String name, String trade, String email, String phone,
                                                     String street, String postalCode, String city, String province,
-                                                    Boolean description, Boolean comments) {
+                                                    Boolean description, Boolean comments, Boolean address,
+                                                    Boolean geolocation) {
         return extendedContactViewDAO.searchEntities(name, trade, email, phone, street, postalCode, city, province,
-                description, comments);
+                description, comments, address, geolocation);
     }
 
     public List<ViewExtendedContact> getViewExtendedContacts() {

@@ -7,6 +7,7 @@ import database.entity.Trade;
 import database.service.OfficeService;
 import database.view.ViewExtendedContact;
 import database.exception.DataTooLongViolationException;
+import javafx.AddressGeolocation;
 import javafx.CustomMessageBox;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -57,7 +58,7 @@ public class MainFrameController implements Initializable {
     private CustomMessageBox customMessageBox;
 
     @FXML
-    private Label labelHeader, labelDetails;
+    private Label labelHeader, labelDetails, labelGeocode;
     @FXML
     private Button buttonSaveChanges;
     @FXML
@@ -68,7 +69,7 @@ public class MainFrameController implements Initializable {
     @FXML
     private RadioButton radioButtonMapMode, radioButtonDetailsMode, radioButtonSearchMode;
     @FXML
-    private VBox vBoxSearchMode, vBoxDetailsMode, vBoxMapMode;
+    private VBox vBoxSearchMode, vBoxDetailsMode, vBoxMapMode, vBoxGeocode;
     @FXML
     private HBox hBoxSelectedContactButtons;
     @FXML
@@ -78,7 +79,7 @@ public class MainFrameController implements Initializable {
     @FXML
     private ComboBox<String> comboBoxProvince;
     @FXML
-    private CheckBox checkBoxDescription, checkBoxComments;
+    private CheckBox checkBoxDescription, checkBoxComments, checkBoxAddress, checkBoxGeolocation;
     @FXML
     private TextArea textAreaDescription, textAreaComments;
     @FXML
@@ -177,6 +178,25 @@ public class MainFrameController implements Initializable {
     }
 
     @FXML
+    void buttonGeocode_onAction() {
+        Contact contact = officeService.getContact((tableViewContacts.getSelectionModel().getSelectedItem().getContactId()));
+        AddressGeolocation addressGeolocation = new AddressGeolocation(contact.getAddress(), FXCollections.observableArrayList(provinces));
+        addressGeolocation.setAddressCoordinates();
+        try {
+            officeService.saveContact(contact);
+            refreshTableView(officeService.getViewExtendedContacts());
+            refreshComboBoxes();
+            prepareContactComponents(false);
+            setDefaultDetailsInformation();
+            prepareGeolocationButton(false);
+        } catch (DataTooLongViolationException e) {
+            customMessageBox.showMessageBox(Alert.AlertType.WARNING, "Ostrzeżenie",
+                    "Operacja modyfikacji kontaktu nie powiodła się.",
+                    "Powód: " + e.getCause().getMessage() + ".").showAndWait();
+        }
+    }
+
+    @FXML
     void buttonSaveChanges_onAction() {
         ViewExtendedContact contact = tableViewContacts.getSelectionModel().getSelectedItem();
         if (contact != null) {
@@ -207,6 +227,7 @@ public class MainFrameController implements Initializable {
         refreshTableView(officeService.getViewExtendedContacts());
         prepareContactComponents(false);
         setDefaultDetailsInformation();
+        prepareGeolocationButton(false);
     }
 
     @FXML
@@ -461,12 +482,23 @@ public class MainFrameController implements Initializable {
         labelDetails.setText("------");
         textAreaDescription.setText("");
         textAreaComments.setText("");
+        labelGeocode.setText("---");
     }
 
     private void setDetailsInformation(ViewExtendedContact selectedContact) {
         labelDetails.setText(selectedContact.getName());
         textAreaDescription.setText(selectedContact.getDescription());
         textAreaComments.setText(selectedContact.getComments());
+        if (selectedContact.getAddressId() != null && (selectedContact.getLongitude() != null && !selectedContact.getLongitude().equals(""))) {
+            labelGeocode.setText("- zgeokodowany adres: " + selectedContact.getLatitude() + ", " + selectedContact.getLongitude() + ".");
+            prepareGeolocationButton(false);
+        } else if (selectedContact.getAddressId() != null && (selectedContact.getLongitude() == null || selectedContact.getLongitude().equals(""))) {
+            labelGeocode.setText("- nie zgeokodowano adresu.");
+            prepareGeolocationButton(true);
+        } else if (selectedContact.getAddressId() == null) {
+            labelGeocode.setText("- brak danych adresowych.");
+            prepareGeolocationButton(false);
+        }
     }
 
     private void refreshTableView(List<ViewExtendedContact> viewExtendedContacts) {
@@ -524,9 +556,9 @@ public class MainFrameController implements Initializable {
 
             buttonSaveChanges.setVisible(true);
             buttonSaveChanges.setDisable(false);
-            buttonSaveChanges.setMinWidth(120);
+            buttonSaveChanges.setMinWidth(147);
             buttonSaveChanges.setMinHeight(Control.USE_COMPUTED_SIZE);
-            buttonSaveChanges.setPrefWidth(120);
+            buttonSaveChanges.setPrefWidth(147);
             buttonSaveChanges.setPrefHeight(31);
             buttonSaveChanges.setMaxWidth(Control.USE_COMPUTED_SIZE);
             buttonSaveChanges.setMaxHeight(Control.USE_COMPUTED_SIZE);
@@ -648,6 +680,28 @@ public class MainFrameController implements Initializable {
         }
     }
 
+    private void prepareGeolocationButton(boolean button) {
+        if (button) {
+            vBoxGeocode.setVisible(true);
+            vBoxGeocode.setDisable(false);
+            vBoxGeocode.setMinWidth(Control.USE_COMPUTED_SIZE);
+            vBoxGeocode.setMinHeight(Control.USE_COMPUTED_SIZE);
+            vBoxGeocode.setPrefWidth(Control.USE_COMPUTED_SIZE);
+            vBoxGeocode.setPrefHeight(Control.USE_COMPUTED_SIZE);
+            vBoxGeocode.setMaxWidth(Control.USE_COMPUTED_SIZE);
+            vBoxGeocode.setMaxHeight(Control.USE_COMPUTED_SIZE);
+        } else {
+            vBoxGeocode.setVisible(false);
+            vBoxGeocode.setDisable(true);
+            vBoxGeocode.setMinWidth(0);
+            vBoxGeocode.setMinHeight(0);
+            vBoxGeocode.setPrefWidth(0);
+            vBoxGeocode.setPrefHeight(0);
+            vBoxGeocode.setMaxWidth(0);
+            vBoxGeocode.setMaxHeight(0);
+        }
+    }
+
     private void refreshComboBoxes() {
         tradeObservableList.clear();
         tradeObservableList.add("Wszystkie");
@@ -673,6 +727,8 @@ public class MainFrameController implements Initializable {
         textFieldPostalCode.setText("");
         checkBoxComments.setSelected(false);
         checkBoxDescription.setSelected(false);
+        checkBoxAddress.setSelected(false);
+        checkBoxGeolocation.setSelected(false);
         comboBoxTrade.getSelectionModel().select(0);
         comboBoxProvince.getSelectionModel().select(0);
     }
@@ -681,11 +737,12 @@ public class MainFrameController implements Initializable {
         if (tableViewContacts.getSelectionModel().getSelectedItem() != null) {
             prepareContactComponents(false);
             setDefaultDetailsInformation();
+            prepareGeolocationButton(false);
         }
         refreshTableView(officeService.searchContacts(textFieldName.getText(),
                 comboBoxTrade.getSelectionModel().getSelectedItem(), textFieldEmail.getText(), textFieldPhone.getText(),
                 textFieldStreet.getText(), textFieldPostalCode.getText(), textFieldCity.getText(),
                 comboBoxProvince.getSelectionModel().getSelectedItem(), checkBoxDescription.isSelected(),
-                checkBoxComments.isSelected()));
+                checkBoxComments.isSelected(), checkBoxAddress.isSelected(), checkBoxGeolocation.isSelected()));
     }
 }

@@ -28,9 +28,9 @@ public class GeolocationAddressController implements Initializable {
     private Label labelNumberOfAddresses;
     @FXML
     private TextField textFieldProvince, textFieldCounty, textFieldPostalCode, textFieldCity, textFieldDistrict,
-            textFieldStreet;
+            textFieldStreet, textFieldGeocodedAddress;
     @FXML
-    private CheckBox checkBoxProvince, checkBoxPostalCode, checkBoxCity, checkBoxStreet;
+    private CheckBox checkBoxProvince, checkBoxPostalCode, checkBoxCity, checkBoxStreet, checkBoxGeocodedAddress;
     @FXML
     private VBox vBoxDistrict, vBoxStreet, vBoxProvince, vBoxCity, vBoxCounty, vBoxPostalCode;
 
@@ -63,6 +63,15 @@ public class GeolocationAddressController implements Initializable {
                 }
                 address.setProvince(new Province(textFieldProvince.getText()));
             }
+        if (checkBoxGeocodedAddress.isSelected()) {
+            String[] splitedGeocodedAddress = textFieldGeocodedAddress.getText().split(" ");
+            address.setLatitude(splitedGeocodedAddress[0].substring(0, splitedGeocodedAddress[0].length() - 1));
+            address.setLongitude(splitedGeocodedAddress[1]);
+        } else {
+            address.setLatitude(null);
+            address.setLongitude(null);
+        }
+
         Stage stage = (Stage) textFieldStreet.getScene().getWindow();
         stage.close();
     }
@@ -137,6 +146,9 @@ public class GeolocationAddressController implements Initializable {
                     break;
             }
         }
+        textFieldGeocodedAddress.setText(String.valueOf(geocodingResults[indexOfSelectedAddress].geometry.location.lat)
+                + ", " + String.valueOf(geocodingResults[indexOfSelectedAddress].geometry.location.lng));
+        checkBoxGeocodedAddress.setSelected(true);
     }
 
     private void disableAllVBoxes() {
@@ -151,6 +163,7 @@ public class GeolocationAddressController implements Initializable {
         checkBoxStreet.setSelected(false);
         checkBoxProvince.setSelected(false);
         checkBoxPostalCode.setSelected(false);
+        checkBoxGeocodedAddress.setSelected(false);
 
         textFieldStreet.setText("");
         textFieldProvince.setText("");
@@ -158,6 +171,7 @@ public class GeolocationAddressController implements Initializable {
         textFieldDistrict.setText("");
         textFieldCounty.setText("");
         textFieldCity.setText("");
+        textFieldGeocodedAddress.setText("");
     }
 
     private void changeVBoxVisible(VBox vBox, Boolean visible) {
