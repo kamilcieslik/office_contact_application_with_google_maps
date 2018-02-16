@@ -104,6 +104,7 @@ public class AddressGeolocation {
             sceneWasLoadedSuccessfully = false;
         }
 
+
         if (sceneWasLoadedSuccessfully) {
             GeolocationAddressController display = loader.getController();
             display.setAddressComponents(geocodingResults, address, provinceObservableList);
