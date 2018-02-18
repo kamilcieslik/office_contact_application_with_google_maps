@@ -9,6 +9,7 @@ import database.view.ViewExtendedContact;
 import database.exception.DataTooLongViolationException;
 import javafx.AddressGeolocation;
 import javafx.CustomMessageBox;
+import javafx.MapItemsApplet;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -33,6 +34,9 @@ import javafx.stage.StageStyle;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 
 import java.awt.*;
@@ -104,14 +108,14 @@ public class MainFrameController implements Initializable {
         //final WebEngine webEngine = new WebEngine(getClass().getResource("https://www.facebook.com/MrCiupi/").toString());
         //webViewGoogleMaps.getEngine().load("map/map.html");
 
-        WebEngine engine = webViewGoogleMaps.getEngine();
-        String url = Main.class.getResource("../map.html").toExternalForm();
-        engine.load(url);
+        //WebEngine engine = webViewGoogleMaps.getEngine();
+        // String url = Main.class.getResource("../map.html").toExternalForm();
+        // engine.load(url);
     }
 
     @FXML
     void buttonAdd_onAction() {
-        Boolean sceneWasLoadedSuccessfully = true;
+    /*    Boolean sceneWasLoadedSuccessfully = true;
         FXMLLoader loader = new FXMLLoader();
         try {
             loader.setLocation(getClass().getResource("../../fxml/AddContact.fxml"));
@@ -129,7 +133,9 @@ public class MainFrameController implements Initializable {
             Stage currentStage = (Stage) buttonSaveChanges.getScene().getWindow();
             Scene scene = new Scene(parent, currentStage.getWidth() - 16.0, currentStage.getHeight() - 42.5);
             stage.setScene(scene);
-        }
+        }*/
+
+        MapItemsApplet mapItemsApplet = new MapItemsApplet(viewContactObservableList);
     }
 
     @FXML

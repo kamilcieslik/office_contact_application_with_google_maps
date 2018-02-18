@@ -16,7 +16,28 @@
 </head>
 <body id="body">
 <div id="map"></div>
+
+<object width=300 height=100
+        classid="clsid:8AD9C840-044E-11D1-B3E9-00805F499D93"
+        codebase="http://java.sun.com/products/plugin/autodl/jinstall-1_4-windows-i586.cab#Version=1,4,0,0">
+    <param name="id" value="AppletABC"/>
+    <param name="code" value="MapItemsApplet"/>
+    <!--[if !IE]> -->
+    <object width="300" height="100" type="application/x-java-applet">
+        <param name="id" value="AppletABC"/>
+        <param name="code" value="MapItemsApplet"/>
+    </object>
+    <!-- <![endif]-->
+</object>
+
 <script>
+    var contacts;
+
+    function fetchContacts(contactsFromJava){
+        contacts = document.getElementById("AppletABC").appendText("getJavaArray");
+        console.log("ELO");
+    }
+
     function initMap() {
         var uluru = {lat: 50.965143, lng: 18.970245};
         var map = new google.maps.Map(document.getElementById('map'), {
