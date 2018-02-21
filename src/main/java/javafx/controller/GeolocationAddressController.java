@@ -174,6 +174,7 @@ public class GeolocationAddressController implements Initializable {
         textFieldGeocodedAddress.setText("");
     }
 
+    @SuppressWarnings("Duplicates")
     private void changeVBoxVisible(VBox vBox, Boolean visible) {
         if (!visible) {
             vBox.setVisible(false);
